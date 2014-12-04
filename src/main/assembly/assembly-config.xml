@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<assembly>
+	<id>config</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	
+	<dependencySets>
+		<dependencySet>
+			<includes>
+				<!-- Only include the resources artifact -->
+				<include>nl.ipo.cds:resources:jar</include>
+			</includes>
+			<outputDirectory>/config</outputDirectory>
+			<unpack>true</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>
+</assembly>

@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<assembly>
+	<id>software</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	
+	<fileSets>
+		<fileSet>
+			<directory>../managerDB/target/etc</directory>
+			<outputDirectory>database</outputDirectory>
+			<includes>
+				<include>scripts/**/*.*</include>
+				<include>sql/**/*.*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>target/etc</directory>
+			<outputDirectory>database</outputDirectory>
+			<includes>
+				<include>**/*.*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<!-- Files in the root of the etc directory -->
+			<directory>etc</directory>
+			<filtered>true</filtered>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>*.*</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+	
+	<dependencySets>
+		<dependencySet>
+			<includes>
+				<include>nl.ipo.cds.ipo:ipo-admin:war</include>
+			</includes>
+			<outputFileNameMapping>admin.war</outputFileNameMapping>
+			<outputDirectory>/webapps</outputDirectory>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+		<dependencySet>
+			<includes>
+				<include>nl.ipo.cds:deegree-webservices-cds:war</include>
+			</includes>
+			<outputFileNameMapping>
+			<!-- in tomcat webapps wijzen alle nodige services met een softlink naar dit bestand 
+			 (ProtectedSites.war -> deegree.war.base, AreaManagement -> deegree.war.base, etc)  
+			-->
+				deegree.war.base
+<!-- 				DeegreeWebservicesCds${dashClassifier?}.${artifact.extension} -->
+			</outputFileNameMapping>
+			<outputDirectory>/webapps</outputDirectory>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+		<dependencySet>
+			<includes>
+				<include>nl.ipo.cds:risicokaart-export-webapp:war</include>
+			</includes>
+			<outputFileNameMapping>risicokaart-export.war</outputFileNameMapping>
+			<outputDirectory>/webapps</outputDirectory>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+		<dependencySet>
+			<includes>
+				<!-- Only include the onejar artifact -->
+				<!-- include>nl.ipo.cds:etl-proces:jar:manager</include -->
+				<include>nl.ipo.cds.ipo:ipo-job-executor-exec:jar</include>
+			</includes>
+<!--				Prevent version-number in web-app filenames. Assembly-plugin does-->
+<!--				not use the finalName property of the webapp.build-->
+<!--				Here it's even worse, because the one-jar-plugin does not use a classifier. Therefore, as-->
+<!--				a workaround the finalname is abused. Use here the artifactId in the outputFileNameMapping.-->
+			<outputFileNameMapping>job-executor-exec.jar</outputFileNameMapping>
+			<outputDirectory>/main</outputDirectory>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>
+</assembly>
