@@ -14,6 +14,93 @@
 		<connection>scm:svn:svn+ssh://repos.idgis.eu/cds-inspire/cds-assembly/tags/assembly-2.1</connection>
 		<developerConnection>scm:svn:svn+ssh://repos.idgis.eu/cds-inspire/cds-assembly/tags/assembly-2.1</developerConnection>
 	</scm>
+	
+	<profiles>
+		<profile>
+			<id>docker-build</id>
+			<activation>
+				<property>
+					<name>docker.host</name>
+				</property>
+			</activation>
+			<properties>
+				<docker.skip-base>false</docker.skip-base>
+				<docker.skip-postgresql>false</docker.skip-postgresql>
+				<docker.skip-ldap>false</docker.skip-ldap>
+			</properties>
+			
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.spotify</groupId>
+						<artifactId>docker-maven-plugin</artifactId>
+						<version>0.1.1</version>
+		
+						<executions>
+							<!-- Build base image (cds-base): -->
+							<execution>
+								<id>build-cds-base</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-base</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-base</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-base</imageName>
+									<skipDockerBuild>${docker.skip-base}</skipDockerBuild>
+								</configuration>
+							</execution>
+							
+							<!-- Build database image (cds-postgresql): -->
+							<execution>
+								<id>build-cds-postgresql</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+																
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-postgresql</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-postgresql</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-postgresql</imageName>
+									<skipDockerBuild>${docker.skip-postgresql}</skipDockerBuild>
+									
+									<resources>
+										<resource>
+											<targetPath>/sql</targetPath>
+											<directory>${project.build.directory}/sql</directory>
+											<include>*.sql</include>
+										</resource>
+									</resources>
+									
+								</configuration>
+							</execution>
+							
+							<!-- Build the LDAP image (cds-ldap): -->
+							<execution>
+								<id>build-cds-ldap</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-ldap</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-ldap</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-ldap</imageName>
+									<skipDockerBuild>${docker.skip-ldap}</skipDockerBuild>
+								</configuration>
+							</execution>
+							
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			
+		</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>
@@ -215,15 +302,13 @@
 								<mkdir dir="${project.build.directory}/sql" />
 								<concat destfile="${project.build.directory}/sql/create-database.sql">
 									<header>begin;</header>
-									<filelist dir="${project.build.directory}/dependency/sql" files="create-manager-schema.sql,cds-schema.sql,add-delete-cascade.sql,create-manager-geometry.sql,update-manager-timezones.sql,create-manager-indexes.sql,create-manager-views.sql,grant-manager-schema.sql,create-metadata-schema.sql,cds-metadata-schema.sql,grant-metadata-schema.sql,create-inspire-schema.sql,grant-inspire-schema.sql,create-job-scheduler.sql,populate-manager-schema.sql" />
+									<filelist dir="${project.build.directory}/dependency/sql" files="create-manager-schema.sql,cds-schema.sql,add-delete-cascade.sql,create-manager-geometry.sql,update-manager-timezones.sql,create-manager-indexes.sql,create-manager-views.sql,grant-manager-schema.sql,create-metadata-schema.sql,cds-metadata-schema.sql,grant-metadata-schema.sql,create-inspire-schema.sql,grant-inspire-schema.sql,create-job-scheduler.sql,populate-manager-schema.sql,create-bron-schema.sql" />
 									<footer>commit;</footer>
 								</concat>
 								<concat destfile="${project.build.directory}/sql/add-themes.sql">
 									<header>begin;</header>
 									<path>
-										<fileset dir="${project.build.directory}/dependency/sql" includes="create-bron-schema.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="create-bron-schema-*.sql" />
-										<fileset dir="${project.build.directory}/dependency/sql" includes="create-inspire-schema.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="create-inspire-schema-*.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="populate-manager-schema-*.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="populate-metadata-schema-*.sql" />
