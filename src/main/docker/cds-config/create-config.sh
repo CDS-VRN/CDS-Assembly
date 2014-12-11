@@ -4,11 +4,11 @@ echo "Generating CDS configuration ..."
 
 # Create dataSource properties:
 echo "jdbc.driverClassName=org.postgresql.Driver" > /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
-echo "jdbc.dburl=jdbc:postgresql://$DB_PORT_5432_TCP_ADDR:$DB_PORT_5432_TCP_PORT/cds_inspire" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
+echo "jdbc.dburl=jdbc:postgresql://db:5432/cds" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "jdbc.username=inspire" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "jdbc.password=inspire" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "ldap.ldapbase=dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
-echo "ldap.ldapurl=ldap\://$LDAP_PORT_389_TCP_ADDR:$LDAP_PORT_389_TCP_PORT/dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
+echo "ldap.ldapurl=ldap\://ldap:389/dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "ldap.managerdn=cn=admin,dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "ldap.managerpw=admin" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 
@@ -16,8 +16,8 @@ echo "ldap.managerpw=admin" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.prop
 echo "pgrBaseUrl=$CDS_ETL_PGR_URL" > /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "cdsFileCacheRoot=/var/lib/cds/filecache" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "numberOfThreads=10" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
-echo "mail.smtpHost=$MAIL_PORT_25_TCP_ADDR" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
-echo "mail.smtpPort=$MAIL_PORT_25_TCP_PORT" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
+echo "mail.smtpHost=mail" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
+echo "mail.smtpPort=25" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.from=$CDS_MAIL_FROM" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.host=$CDS_MAIL_HOST" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 

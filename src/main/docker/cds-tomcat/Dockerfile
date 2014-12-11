@@ -20,7 +20,7 @@ ENV CATALINA_BASE /var/lib/tomcat7
 ENV CATALINA_HOME /usr/share/tomcat7
 ENV CATALINA_TMPDIR /tmp/tomcat7-tmp
 ENV PATH $CATALINA_HOME/bin:$PATH
-ENV JAVA_OPTS "-Djava.awt.headless=true -Xmx2048m -XX:MaxPermSize=256m -DCONFIGDIR=/etc/cds/configdir" 
+ENV JAVA_OPTS -Djava.awt.headless=true -Xmx2048m -XX:MaxPermSize=256m -DCONFIGDIR=/etc/cds/configdir
 
 USER tomcat7
 

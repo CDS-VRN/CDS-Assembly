@@ -19,9 +19,20 @@ Images are built during the package phase.
 Creates the following docker images:
 
  - cds-base: base image for the other CDS images.
+ - cds-config: image containing CDS configuration. Container name "config".
  - cds-postgresql: container name "db".
  - cds-ldap: container name "ldap".
  - cds-tomcat: base image for CDS tomcat
  - cds-admin: tomcat containing admin war. Container name "admin".
  - cds-webservices: tomcat containing webservices wars Container name "webservices".
  - cds-mail: mail server. Container name "mail".
+ 
+Starting CDS in Docker
+----------------------
+docker run --name cds-master-postgresql -P -d cds-postgresql
+docker run --name cds-master-ldap -P -d cds-ldap
+TODO: run cds-mail
+docker run --name cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-config
+docker run --name cds-master-admin -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-admin
+docker run --name cds-master-jobexecutor -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-admin
+docker run --name cds-master-webservices -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-webservices 
