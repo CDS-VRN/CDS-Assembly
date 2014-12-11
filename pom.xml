@@ -28,11 +28,47 @@
 				<docker.skip-postgresql>false</docker.skip-postgresql>
 				<docker.skip-ldap>false</docker.skip-ldap>
 				<docker.skip-tomcat>false</docker.skip-tomcat>
+				<docker.skip-admin>false</docker.skip-admin>
 				<docker.skip-webservices>false</docker.skip-webservices>
 			</properties>
 			
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.2</version>
+						
+						<executions>
+							<execution>
+								<id>copy-wars</id>
+								
+								<goals><goal>copy</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>nl.ipo.cds.ipo</groupId>
+											<artifactId>ipo-admin</artifactId>
+											<type>war</type>
+											<destFileName>admin.war</destFileName>			
+										</artifactItem>
+										<artifactItem>
+											<groupId>nl.ipo.cds</groupId>
+											<artifactId>deegree-webservices-cds</artifactId>
+											<type>war</type>
+											<destFileName>deegree.war</destFileName>
+										</artifactItem>
+									</artifactItems>
+									<outputDirectory>${project.build.directory}/webapps</outputDirectory>
+									<overWriteReleases>false</overWriteReleases>
+									<overWriteSnapshots>true</overWriteSnapshots>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				
 					<plugin>
 						<groupId>com.spotify</groupId>
 						<artifactId>docker-maven-plugin</artifactId>
@@ -109,6 +145,30 @@
 									<dockerHost>${docker.host}</dockerHost>
 									<imageName>cds-tomcat</imageName>
 									<skipDockerBuild>${docker.skip-tomcat}</skipDockerBuild>
+								</configuration>
+							</execution>
+							
+							<!--  Build admin image (cds-admin): -->
+							<execution>
+								<id>build-cds-admin</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-admin</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-admin</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-admin</imageName>
+									<skipDockerBuild>${docker.skip-admin}</skipDockerBuild>
+									
+									<resources>
+										<resource>
+											<targetPath>/webapps</targetPath>
+											<directory>${project.build.directory}/webapps</directory>
+											<include>admin.war</include>
+										</resource>
+									</resources>
 								</configuration>
 							</execution>
 														
