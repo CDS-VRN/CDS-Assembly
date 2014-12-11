@@ -19,8 +19,9 @@ Images are built during the package phase.
 Creates the following docker images:
 
  - cds-base: base image for the other CDS images.
- - cds-postgresql
- - cds-ldap
+ - cds-postgresql: container name "db".
+ - cds-ldap: container name "ldap".
  - cds-tomcat: base image for CDS tomcat
- - cds-admin
- - cds-webservices
+ - cds-admin: tomcat containing admin war. Container name "admin".
+ - cds-webservices: tomcat containing webservices wars Container name "webservices".
+ - cds-mail: mail server. Container name "mail".

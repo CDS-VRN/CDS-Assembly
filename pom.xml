@@ -25,6 +25,7 @@
 			</activation>
 			<properties>
 				<docker.skip-base>false</docker.skip-base>
+				<docker.skip-config>false</docker.skip-config>
 				<docker.skip-postgresql>false</docker.skip-postgresql>
 				<docker.skip-ldap>false</docker.skip-ldap>
 				<docker.skip-tomcat>false</docker.skip-tomcat>
@@ -66,6 +67,27 @@
 									<overWriteSnapshots>true</overWriteSnapshots>
 								</configuration>
 							</execution>
+							
+							<execution>
+								<id>unpack-config</id>
+								
+								<goals><goal>unpack</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>nl.ipo.cds</groupId>
+											<artifactId>resources</artifactId>
+											<classifier>prod</classifier>
+											<type>jar</type>
+										</artifactItem>
+									</artifactItems>
+									<outputDirectory>${project.build.directory}/config/configdir</outputDirectory>
+									<overWriteReleases>false</overWriteReleases>
+									<overWriteSnapshots>true</overWriteSnapshots>
+								</configuration>
+							</execution>
 						</executions>
 					</plugin>
 				
@@ -88,6 +110,29 @@
 									<dockerHost>${docker.host}</dockerHost>
 									<imageName>cds-base</imageName>
 									<skipDockerBuild>${docker.skip-base}</skipDockerBuild>
+								</configuration>
+							</execution>
+							
+							<!-- Build config image (cds-config): -->
+							<execution>
+								<id>build-cds-config</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-config</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-config</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-config</imageName>
+									<skipDockerBuild>${docker.skip-config}</skipDockerBuild>
+									
+									<resources>
+										<resource>
+											<targetPath>/config</targetPath>
+											<directory>${project.build.directory}/config</directory>
+										</resource>
+									</resources>
 								</configuration>
 							</execution>
 							
