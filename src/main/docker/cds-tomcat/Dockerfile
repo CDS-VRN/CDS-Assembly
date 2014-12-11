@@ -8,6 +8,10 @@ RUN apt-get update && \
     	tomcat7 \
     	tomcat7-user
     	
+COPY run-catalina.sh /bin/
+
+RUN chown tomcat7:tomcat7 /bin/run-catalina.sh && \
+	chmod u+x /bin/run-catalina.sh
 
 # Configure Tomcat:
 # RUN echo "JAVA_OPTS=\"-Djava.awt.headless=true -Xmx2048m -XX:MaxPermSize=256m -DDEEGREE_WORKSPACE_ROOT=/etc/cds/deegree-workspace -DCONFIGDIR=/etc/cds/configdir\"" >> /etc/default/tomcat7
@@ -22,4 +26,6 @@ USER tomcat7
 
 EXPOSE 8080
 
-CMD mkdir $CATALINA_TMPDIR && catalina.sh run
+VOLUME /var/log/tomcat7/
+
+CMD [ "/bin/run-catalina.sh" ]

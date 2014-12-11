@@ -21,3 +21,6 @@ Creates the following docker images:
  - cds-base: base image for the other CDS images.
  - cds-postgresql
  - cds-ldap
+ - cds-tomcat: base image for CDS tomcat
+ - cds-admin
+ - cds-webservices
