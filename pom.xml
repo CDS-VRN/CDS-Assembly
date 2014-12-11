@@ -27,6 +27,8 @@
 				<docker.skip-base>false</docker.skip-base>
 				<docker.skip-postgresql>false</docker.skip-postgresql>
 				<docker.skip-ldap>false</docker.skip-ldap>
+				<docker.skip-tomcat>false</docker.skip-tomcat>
+				<docker.skip-webservices>false</docker.skip-webservices>
 			</properties>
 			
 			<build>
@@ -91,6 +93,47 @@
 									<dockerHost>${docker.host}</dockerHost>
 									<imageName>cds-ldap</imageName>
 									<skipDockerBuild>${docker.skip-ldap}</skipDockerBuild>
+								</configuration>
+							</execution>
+
+							<!-- Build tomcat image (cds-tomcat): -->
+							<execution>
+								<id>build-cds-tomcat</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-tomcat</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-tomcat</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-tomcat</imageName>
+									<skipDockerBuild>${docker.skip-tomcat}</skipDockerBuild>
+								</configuration>
+							</execution>
+														
+							<!-- Build webservices image (cds-webservices): -->
+							<execution>
+								<id>build-cds-webservices</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-webservices</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-webservices</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-webservices</imageName>
+									<skipDockerBuild>${docker.skip-webservices}</skipDockerBuild>
+									
+									<resources>
+										<resource>
+											<targetPath>/webapps</targetPath>
+											<directory>${project.build.directory}/sql</directory>
+											<include>*.sql</include>
+										</resource>
+									</resources>
+									
 								</configuration>
 							</execution>
 							
