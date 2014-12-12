@@ -31,6 +31,7 @@
 				<docker.skip-tomcat>false</docker.skip-tomcat>
 				<docker.skip-admin>false</docker.skip-admin>
 				<docker.skip-webservices>false</docker.skip-webservices>
+				<docker.skip-job-executor>false</docker.skip-job-executor>
 			</properties>
 			
 			<build>
@@ -65,6 +66,27 @@
 									<outputDirectory>${project.build.directory}/webapps</outputDirectory>
 									<overWriteReleases>false</overWriteReleases>
 									<overWriteSnapshots>true</overWriteSnapshots>
+								</configuration>
+							</execution>
+							
+							<execution>
+								<id>copy-jars</id>
+								
+								<goals><goal>copy</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>nl.ipo.cds.ipo</groupId>
+											<artifactId>ipo-job-executor-exec</artifactId>
+											<type>jar</type>
+											<destFileName>job-executor.jar</destFileName>
+										</artifactItem>
+									</artifactItems>
+									<outputDirectory>${project.build.directory}/jars</outputDirectory>
+									<overwriteReleases>false</overwriteReleases>
+									<overwriteSnapshots>true</overwriteSnapshots>
 								</configuration>
 							</execution>
 							
@@ -239,6 +261,30 @@
 										</resource>
 									</resources>
 									
+								</configuration>
+							</execution>
+							
+							<!-- Build job-executor (cds-job-executor) -->
+							<execution>
+								<id>buid-cds-job-executor</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-job-executor</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-job-executor</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-job-executor</imageName>
+									<skipDockerBuild>${docker.skip-job-executor}</skipDockerBuild>
+									
+									<resources>
+										<resource>
+											<targetPath>/jars</targetPath>
+											<directory>${project.build.directory}/jars</directory>
+											<include>*.jar</include>
+										</resource>
+									</resources>
 								</configuration>
 							</execution>
 							

@@ -26,6 +26,7 @@ Creates the following docker images:
  - cds-admin: tomcat containing admin war. Container name "admin".
  - cds-webservices: tomcat containing webservices wars Container name "webservices".
  - cds-mail: mail server. Container name "mail".
+ - cds-jobexecutor: job-executor service.
  
 Starting CDS in Docker
 ----------------------
@@ -34,5 +35,5 @@ docker run --name cds-master-ldap -P -d cds-ldap
 TODO: run cds-mail
 docker run --name cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-config
 docker run --name cds-master-admin -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-admin
-docker run --name cds-master-jobexecutor -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-admin
+docker run --name cds-master-jobexecutor -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-job-executor
 docker run --name cds-master-webservices -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-webservices 
