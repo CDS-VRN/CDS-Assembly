@@ -27,9 +27,12 @@ Creates the following docker images:
  - cds-webservices: tomcat containing webservices wars Container name "webservices".
  - cds-mail: mail server. Container name "mail".
  - cds-jobexecutor: job-executor service.
+ - cds-postfix:
+ - cds-apache
  
 Starting CDS in Docker
 ----------------------
+TODO: create data-only volume for postgresql data
 docker run --name cds-master-postgresql -P -d cds-postgresql
 docker run --name cds-master-ldap -P -d cds-ldap
 TODO: run cds-mail
@@ -37,3 +40,4 @@ docker run --name cds-master-config --link cds-master-postgresql:db --link cds-m
 docker run --name cds-master-admin -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-admin
 docker run --name cds-master-jobexecutor -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-job-executor
 docker run --name cds-master-webservices -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-webservices 
+docker run --name cds-master-apache -p 80:80 -d --link cds-master-admin:admin --link cds-master-webservices:webservices -e CDS_SERVER_NAME=vrn-test.idgis.nl -e CDS_SERVER_ADMIN=cds-support@inspire-provincies.nl cds-apache

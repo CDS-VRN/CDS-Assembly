@@ -32,6 +32,8 @@
 				<docker.skip-admin>false</docker.skip-admin>
 				<docker.skip-webservices>false</docker.skip-webservices>
 				<docker.skip-job-executor>false</docker.skip-job-executor>
+				<docker.skip-postfix>false</docker.skip-postfix>
+				<docker.skip-apache>false</docker.skip-apache>
 			</properties>
 			
 			<build>
@@ -285,6 +287,38 @@
 											<include>*.jar</include>
 										</resource>
 									</resources>
+								</configuration>
+							</execution>
+							
+							<!-- Build postfix (cds-postfix): -->
+							<execution>
+								<id>build-cds-postfix</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-postfix</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-postfix</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-postfix</imageName>
+									<skipDockerBuild>${docker.skip-postfix}</skipDockerBuild>
+								</configuration>
+							</execution>
+							
+							<!-- Build apache (cds-apache): -->
+							<execution>
+								<id>build-cds-apache</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-apache</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-apache</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-apache</imageName>
+									<skipDockerBuild>${docker.skip-apache}</skipDockerBuild>
 								</configuration>
 							</execution>
 							

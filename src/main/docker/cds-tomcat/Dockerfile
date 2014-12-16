@@ -22,9 +22,13 @@ ENV CATALINA_TMPDIR /tmp/tomcat7-tmp
 ENV PATH $CATALINA_HOME/bin:$PATH
 ENV JAVA_OPTS -Djava.awt.headless=true -Xmx2048m -XX:MaxPermSize=256m -DCONFIGDIR=/etc/cds/configdir
 
+# Copy the server.xml:
+COPY /server.xml /etc/tomcat7/server.xml
+ 
 USER tomcat7
 
 EXPOSE 8080
+EXPOSE 8009
 
 VOLUME /var/log/tomcat7/
 
