@@ -27,6 +27,5 @@ RUN mkdir -p /var/lib/cds/filecache && \
 	mkdir -p /etc/cds/metadata
 
 VOLUME /etc/cds
-VOLUME /var/lib/cds/filecache
 
 CMD [ "/bin/create-config.sh" ]

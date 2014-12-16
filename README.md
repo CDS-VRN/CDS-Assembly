@@ -32,12 +32,23 @@ Creates the following docker images:
  
 Starting CDS in Docker
 ----------------------
-TODO: create data-only volume for postgresql data
-docker run --name cds-master-postgresql -P -d cds-postgresql
-docker run --name cds-master-ldap -P -d cds-ldap
-TODO: run cds-mail
-docker run --name cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-config
-docker run --name cds-master-admin -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-admin
-docker run --name cds-master-jobexecutor -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-job-executor
-docker run --name cds-master-webservices -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-webservices 
-docker run --name cds-master-apache -p 80:80 -d --link cds-master-admin:admin --link cds-master-webservices:webservices -e CDS_SERVER_NAME=vrn-test.idgis.nl -e CDS_SERVER_ADMIN=cds-support@inspire-provincies.nl cds-apache
+
+Create data volume containers:
+
+	docker run -d -v /var/lib/postgresql --name cds-master-dbdata cds-postgresql true
+	docker run -d -v /opt/OpenDS-2.2.1/db --name cds-master-ldapdata cds-ldap true
+	docker run -d -v /var/lib/cds/filecache --name cds-master-filecache cds-config true
+
+Create data volume container containing the CDS configdir:
+
+	docker run --name cds-master-config cds-config
+	
+Create service containers:
+
+	docker run --name cds-master-postgresql -P -d --volumes-from cds-master-dbdata cds-postgresql
+	docker run --name cds-master-ldap -P -d --volumes-from cds-master-ldapdata cds-ldap
+	TODO: run cds-mail
+	docker run --name cds-master-admin -P -d --volumes-from cds-master-config --volumes-from cds-master-filecache --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-admin
+	docker run --name cds-master-jobexecutor -P -d --volumes-from cds-master-config --volumes-from cds-master-filecache --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-job-executor
+	docker run --name cds-master-webservices -P -d --volumes-from cds-master-config --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-webservices 
+	docker run --name cds-master-apache -p 80:80 -d --link cds-master-admin:admin --link cds-master-webservices:webservices -e CDS_SERVER_NAME=vrn-test.idgis.nl -e CDS_SERVER_ADMIN=cds-support@inspire-provincies.nl cds-apache

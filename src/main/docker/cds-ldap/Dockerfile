@@ -26,6 +26,6 @@ RUN /opt/OpenDS-2.2.1/setup -i -n -b dc=inspire,dc=idgis,dc=eu -D cn=admin,dc=in
 
 EXPOSE 389
 
-VOLUME ["/opt/OpenDS-2.2.1/logs", "/opt/OpenDS-2.2.1/config", "/opt/OpenDS-2.2.1/db"]
+VOLUME ["/opt/OpenDS-2.2.1/logs", "/opt/OpenDS-2.2.1/config"]
 	
 CMD ["/opt/OpenDS-2.2.1/bin/start-ds", "-N"]
