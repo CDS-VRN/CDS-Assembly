@@ -258,8 +258,8 @@
 									<resources>
 										<resource>
 											<targetPath>/webapps</targetPath>
-											<directory>${project.build.directory}/sql</directory>
-											<include>*.sql</include>
+											<directory>${project.build.directory}/webapps</directory>
+											<include>deegree.war</include>
 										</resource>
 									</resources>
 									

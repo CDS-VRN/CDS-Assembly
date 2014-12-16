@@ -1,7 +1,8 @@
 FROM cds-base
 
-ENV CDS_SERVICES ProtectedSites
+ENV CDS_SERVICES ProtectedSites AgriculturalAndAquacultureFacilities AreaManagement EnvironmentalMonitoringFacilities HabitatsAndBiotopes NaturalRiskZones ProductionAndIndustrialFacilities
 ENV CDS_SERVER_NAME www.inspire-provincies.nl
+ENV CDS_WEBSERVICES_SERVER_NAME services.inspire-provincies.nl
 ENV CDS_SERVER_ADMIN cds-support@inspire-provincies.nl
 
 # Install Apache 2:
