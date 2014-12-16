@@ -9,26 +9,27 @@ following values to the variable DOCKER_OPTS:
 	
 Then, restart the docker daemon using: service docker restart.
 
-The docker images are built when the docker-build profile is active. This profile is automatically
-activated when the docker.host variable is provided:
+For a more secure connection, the same can be accomplished using an SSH-tunnel without exposing the 
+docker REST-interface to the outside world (which is a bad thing).
 
-mvn -Ddocker.host=http://localhost:2375 package
+The docker images are built when the docker-build profile is active. This profile is automatically
+activated when the docker.host variable is provided, for example:
+
+	mvn -Ddocker.host=http://localhost:2375 package
 
 Images are built during the package phase.
 
-Creates the following docker images:
+Maven creates the following docker images:
 
- - cds-base: base image for the other CDS images.
- - cds-config: image containing CDS configuration. Container name "config".
- - cds-postgresql: container name "db".
- - cds-ldap: container name "ldap".
- - cds-tomcat: base image for CDS tomcat
- - cds-admin: tomcat containing admin war. Container name "admin".
- - cds-webservices: tomcat containing webservices wars Container name "webservices".
- - cds-mail: mail server. Container name "mail".
- - cds-jobexecutor: job-executor service.
- - cds-postfix:
- - cds-apache
+ - **cds-base**: base image for the other CDS images.
+ - **cds-config**: image containing CDS configuration (the configdir).
+ - **cds-postgresql**: image containing a PostgreSQL/PostGis installation containing the CDS database.
+ - **cds-ldap**: image containing an OpenDS installation containing several entries that are used by the CDS.
+ - **cds-tomcat**: base image for CDS tomcat instances.
+ - **cds-admin**: tomcat containing admin war.
+ - **cds-webservices**: tomcat containing wars for the webservices.
+ - **cds-jobexecutor**: contains and executes the job-executor jar. Queries the database for new jobs to execute.
+ - **cds-apache**: contains Apache vhost-configurations for the CDS.
  
 Starting CDS in Docker
 ----------------------
@@ -50,10 +51,27 @@ Create data volume container containing the CDS configdir:
 	
 Create service containers:
 
+	TODO: setup e-mail
 	docker run --name cds-master-postgresql -P -d --volumes-from cds-master-dbdata cds-postgresql
 	docker run --name cds-master-ldap -P -d --volumes-from cds-master-ldapdata cds-ldap
-	TODO: run cds-mail
-	docker run --name cds-master-admin -P -d --volumes-from cds-master-config --volumes-from cds-master-filecache --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-admin
-	docker run --name cds-master-jobexecutor -P -d --volumes-from cds-master-config --volumes-from cds-master-filecache --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-job-executor
-	docker run --name cds-master-webservices -P -d --volumes-from cds-master-config --volumes-from cds-master-workspaces --link cds-master-postgresql:db --link cds-master-ldap:ldap cds-webservices 
-	docker run --name cds-master-apache -p 80:80 -d --link cds-master-admin:admin --link cds-master-webservices:webservices -e CDS_SERVER_NAME=vrn-test.idgis.nl -e CDS_SERVER_ADMIN=cds-support@inspire-provincies.nl cds-apache
+	docker run --name cds-master-admin -P -d --volumes-from cds-master-config \
+		--volumes-from cds-master-filecache --link cds-master-postgresql:db \
+		--link cds-master-ldap:ldap cds-admin
+	docker run --name cds-master-jobexecutor -P -d --volumes-from cds-master-config \
+		--volumes-from cds-master-filecache --link cds-master-postgresql:db \ 
+		--link cds-master-ldap:ldap cds-job-executor
+	docker run --name cds-master-webservices -P -d --volumes-from cds-master-config \
+		--volumes-from cds-master-workspaces --link cds-master-postgresql:db \
+		--link cds-master-ldap:ldap cds-webservices 
+	docker run --name cds-master-apache -p 80:80 -d --link cds-master-admin:admin \
+		--link cds-master-webservices:webservices \
+		-e CDS_SERVER_NAME=vrn-test.idgis.nl \
+		-e CDS_WEBSERVICES_SERVER_NAME=vrn-test-services.idgis.nl \
+		-e CDS_SERVER_ADMIN=cds-support@inspire-provincies.nl \
+		cds-apache
+		
+Configuration (using environment variables):
+
+- Apache -> **CDS_SERVER_NAME**: hostname for the admin vhost.
+- Apache -> **CDS_WEBSERVICES_SERVER_NAME**: hostname for the services vhost.
+- Apache -> **CDS_SERVER_ADMIN**: e-mail address for the CDS server administrator.
