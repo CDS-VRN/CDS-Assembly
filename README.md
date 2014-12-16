@@ -40,6 +40,10 @@ Create data volume containers:
 	docker run -d -v /opt/OpenDS-2.2.1/db --name cds-master-ldapdata cds-ldap true
 	docker run -d -v /var/lib/cds/filecache --name cds-master-filecache cds-config true
 	docker run -d -v /etc/cds/workspaces --name cds-master-workspaces cds-webservices true
+	
+**Note**: the data volume containers contain the data that is mutated by the CDS components. With the exception of the
+workspaces container this data cannot be reproduced by repeating the installation instructions. Keep this in mind when destroying
+these containers!
 
 Copy the deegree workspaces into the cds-master-workspaces volume.
 
