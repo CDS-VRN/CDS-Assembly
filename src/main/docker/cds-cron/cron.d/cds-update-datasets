@@ -1,0 +1,1 @@
+30 2 * * * root 	export PGPASSWORD=inspire && psql -h db -p 5432 -U inspire -c "select manager.schedule_jobs();" cds

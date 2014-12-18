@@ -30,6 +30,7 @@ Maven creates the following docker images:
  - **cds-webservices**: tomcat containing wars for the webservices.
  - **cds-jobexecutor**: contains and executes the job-executor jar. Queries the database for new jobs to execute.
  - **cds-apache**: contains Apache vhost-configurations for the CDS.
+ - **cds-cron**: cronjob to update datasets.
  
 Starting CDS in Docker
 ----------------------
@@ -73,6 +74,7 @@ Create service containers:
 		-e CDS_WEBSERVICES_SERVER_NAME=vrn-test-services.idgis.nl \
 		-e CDS_SERVER_ADMIN=cds-support@inspire-provincies.nl \
 		cds-apache
+	docker run --name cds-master-cron -d --link cds-master-postgresql:db cds-cron
 		
 Configuration (using environment variables):
 
