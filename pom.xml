@@ -14,6 +14,321 @@
 		<connection>scm:svn:svn+ssh://repos.idgis.eu/cds-inspire/cds-assembly/tags/assembly-2.1</connection>
 		<developerConnection>scm:svn:svn+ssh://repos.idgis.eu/cds-inspire/cds-assembly/tags/assembly-2.1</developerConnection>
 	</scm>
+	
+	<profiles>
+		<profile>
+			<id>docker-build</id>
+			<activation>
+				<property>
+					<name>docker.host</name>
+				</property>
+			</activation>
+			<properties>
+				<docker.skip-base>false</docker.skip-base>
+				<docker.skip-config>false</docker.skip-config>
+				<docker.skip-postgresql>false</docker.skip-postgresql>
+				<docker.skip-ldap>false</docker.skip-ldap>
+				<docker.skip-tomcat>false</docker.skip-tomcat>
+				<docker.skip-admin>false</docker.skip-admin>
+				<docker.skip-webservices>false</docker.skip-webservices>
+				<docker.skip-job-executor>false</docker.skip-job-executor>
+				<docker.skip-postfix>false</docker.skip-postfix>
+				<docker.skip-apache>false</docker.skip-apache>
+			</properties>
+			
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.2</version>
+						
+						<executions>
+							<execution>
+								<id>copy-wars</id>
+								
+								<goals><goal>copy</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>nl.ipo.cds.ipo</groupId>
+											<artifactId>ipo-admin</artifactId>
+											<type>war</type>
+											<destFileName>admin.war</destFileName>			
+										</artifactItem>
+										<artifactItem>
+											<groupId>nl.ipo.cds</groupId>
+											<artifactId>deegree-webservices-cds</artifactId>
+											<type>war</type>
+											<destFileName>deegree.war</destFileName>
+										</artifactItem>
+									</artifactItems>
+									<outputDirectory>${project.build.directory}/webapps</outputDirectory>
+									<overWriteReleases>false</overWriteReleases>
+									<overWriteSnapshots>true</overWriteSnapshots>
+								</configuration>
+							</execution>
+							
+							<execution>
+								<id>copy-jars</id>
+								
+								<goals><goal>copy</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>nl.ipo.cds.ipo</groupId>
+											<artifactId>ipo-job-executor-exec</artifactId>
+											<type>jar</type>
+											<destFileName>job-executor.jar</destFileName>
+										</artifactItem>
+									</artifactItems>
+									<outputDirectory>${project.build.directory}/jars</outputDirectory>
+									<overwriteReleases>false</overwriteReleases>
+									<overwriteSnapshots>true</overwriteSnapshots>
+								</configuration>
+							</execution>
+							
+							<execution>
+								<id>unpack-config</id>
+								
+								<goals><goal>unpack</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>nl.ipo.cds</groupId>
+											<artifactId>resources</artifactId>
+											<classifier>prod</classifier>
+											<type>jar</type>
+										</artifactItem>
+									</artifactItems>
+									<outputDirectory>${project.build.directory}/config/configdir</outputDirectory>
+									<overWriteReleases>false</overWriteReleases>
+									<overWriteSnapshots>true</overWriteSnapshots>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				
+					<plugin>
+						<groupId>com.spotify</groupId>
+						<artifactId>docker-maven-plugin</artifactId>
+						<version>0.1.1</version>
+		
+						<executions>
+							<!-- Build base image (cds-base): -->
+							<execution>
+								<id>build-cds-base</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-base</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-base</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-base</imageName>
+									<skipDockerBuild>${docker.skip-base}</skipDockerBuild>
+								</configuration>
+							</execution>
+							
+							<!-- Build config image (cds-config): -->
+							<execution>
+								<id>build-cds-config</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-config</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-config</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-config</imageName>
+									<skipDockerBuild>${docker.skip-config}</skipDockerBuild>
+									
+									<resources>
+										<resource>
+											<targetPath>/config</targetPath>
+											<directory>${project.build.directory}/config</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+							
+							<!-- Build database image (cds-postgresql): -->
+							<execution>
+								<id>build-cds-postgresql</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+																
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-postgresql</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-postgresql</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-postgresql</imageName>
+									<skipDockerBuild>${docker.skip-postgresql}</skipDockerBuild>
+									
+									<resources>
+										<resource>
+											<targetPath>/sql</targetPath>
+											<directory>${project.build.directory}/sql</directory>
+											<include>*.sql</include>
+										</resource>
+									</resources>
+									
+								</configuration>
+							</execution>
+							
+							<!-- Build the LDAP image (cds-ldap): -->
+							<execution>
+								<id>build-cds-ldap</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-ldap</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-ldap</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-ldap</imageName>
+									<skipDockerBuild>${docker.skip-ldap}</skipDockerBuild>
+								</configuration>
+							</execution>
+
+							<!-- Build tomcat image (cds-tomcat): -->
+							<execution>
+								<id>build-cds-tomcat</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-tomcat</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-tomcat</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-tomcat</imageName>
+									<skipDockerBuild>${docker.skip-tomcat}</skipDockerBuild>
+								</configuration>
+							</execution>
+							
+							<!--  Build admin image (cds-admin): -->
+							<execution>
+								<id>build-cds-admin</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-admin</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-admin</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-admin</imageName>
+									<skipDockerBuild>${docker.skip-admin}</skipDockerBuild>
+									
+									<resources>
+										<resource>
+											<targetPath>/webapps</targetPath>
+											<directory>${project.build.directory}/webapps</directory>
+											<include>admin.war</include>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+														
+							<!-- Build webservices image (cds-webservices): -->
+							<execution>
+								<id>build-cds-webservices</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-webservices</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-webservices</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-webservices</imageName>
+									<skipDockerBuild>${docker.skip-webservices}</skipDockerBuild>
+									
+									<resources>
+										<resource>
+											<targetPath>/webapps</targetPath>
+											<directory>${project.build.directory}/webapps</directory>
+											<include>deegree.war</include>
+										</resource>
+									</resources>
+									
+								</configuration>
+							</execution>
+							
+							<!-- Build job-executor (cds-job-executor) -->
+							<execution>
+								<id>buid-cds-job-executor</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-job-executor</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-job-executor</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-job-executor</imageName>
+									<skipDockerBuild>${docker.skip-job-executor}</skipDockerBuild>
+									
+									<resources>
+										<resource>
+											<targetPath>/jars</targetPath>
+											<directory>${project.build.directory}/jars</directory>
+											<include>*.jar</include>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+							
+							<!-- Build postfix (cds-postfix): -->
+							<execution>
+								<id>build-cds-postfix</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-postfix</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-postfix</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-postfix</imageName>
+									<skipDockerBuild>${docker.skip-postfix}</skipDockerBuild>
+								</configuration>
+							</execution>
+							
+							<!-- Build apache (cds-apache): -->
+							<execution>
+								<id>build-cds-apache</id>
+								
+								<goals><goal>build</goal></goals>
+								<phase>package</phase>
+								
+								<configuration>
+									<buildDirectory>${project.build.directory}/docker/cds-apache</buildDirectory>
+									<dockerDirectory>${basedir}/src/main/docker/cds-apache</dockerDirectory>
+									<dockerHost>${docker.host}</dockerHost>
+									<imageName>cds-apache</imageName>
+									<skipDockerBuild>${docker.skip-apache}</skipDockerBuild>
+								</configuration>
+							</execution>
+							
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			
+		</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>
@@ -215,15 +530,13 @@
 								<mkdir dir="${project.build.directory}/sql" />
 								<concat destfile="${project.build.directory}/sql/create-database.sql">
 									<header>begin;</header>
-									<filelist dir="${project.build.directory}/dependency/sql" files="create-manager-schema.sql,cds-schema.sql,add-delete-cascade.sql,create-manager-geometry.sql,update-manager-timezones.sql,create-manager-indexes.sql,create-manager-views.sql,grant-manager-schema.sql,create-metadata-schema.sql,cds-metadata-schema.sql,grant-metadata-schema.sql,create-inspire-schema.sql,grant-inspire-schema.sql,create-job-scheduler.sql,populate-manager-schema.sql" />
+									<filelist dir="${project.build.directory}/dependency/sql" files="create-manager-schema.sql,cds-schema.sql,add-delete-cascade.sql,create-manager-geometry.sql,update-manager-timezones.sql,create-manager-indexes.sql,create-manager-views.sql,grant-manager-schema.sql,create-metadata-schema.sql,cds-metadata-schema.sql,grant-metadata-schema.sql,create-inspire-schema.sql,grant-inspire-schema.sql,create-job-scheduler.sql,populate-manager-schema.sql,create-bron-schema.sql" />
 									<footer>commit;</footer>
 								</concat>
 								<concat destfile="${project.build.directory}/sql/add-themes.sql">
 									<header>begin;</header>
 									<path>
-										<fileset dir="${project.build.directory}/dependency/sql" includes="create-bron-schema.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="create-bron-schema-*.sql" />
-										<fileset dir="${project.build.directory}/dependency/sql" includes="create-inspire-schema.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="create-inspire-schema-*.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="populate-manager-schema-*.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="populate-metadata-schema-*.sql" />
