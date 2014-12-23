@@ -39,7 +39,7 @@ Create data volume containers:
 
 	docker run -d -v /var/lib/postgresql --name cds-master-dbdata cds-postgresql true
 	docker run -d -v /opt/OpenDS-2.2.1/db --name cds-master-ldapdata cds-ldap true
-	docker run -d -v /var/lib/cds/filecache --name cds-master-filecache cds-config true
+	docker run -d -v /var/lib/cds/filecache --name cds-master-filecache cds-base true
 	docker run -d -v /etc/cds/workspaces --name cds-master-workspaces cds-webservices true
 	
 **Note**: the data volume containers contain the data that is mutated by the CDS components. With the exception of the
@@ -57,22 +57,23 @@ Create data volume container containing the CDS configdir:
 Create service containers:
 
 	TODO: setup e-mail
-	docker run --name cds-master-postgresql -P -d --volumes-from cds-master-dbdata cds-postgresql
-	docker run --name cds-master-ldap -P -d --volumes-from cds-master-ldapdata cds-ldap
+	docker run --name cds-master-postgresql -P -d --volumes-from cds-master-dbdata --restart=always cds-postgresql
+	docker run --name cds-master-ldap -P -d --volumes-from cds-master-ldapdata --restart=always cds-ldap
 	docker run --name cds-master-admin -P -d --volumes-from cds-master-config \
 		--volumes-from cds-master-filecache --link cds-master-postgresql:db \
-		--link cds-master-ldap:ldap cds-admin
+		--link cds-master-ldap:ldap --restart=always cds-admin
 	docker run --name cds-master-jobexecutor -P -d --volumes-from cds-master-config \
 		--volumes-from cds-master-filecache --link cds-master-postgresql:db \ 
-		--link cds-master-ldap:ldap cds-job-executor
+		--link cds-master-ldap:ldap --restart=always cds-job-executor
 	docker run --name cds-master-webservices -P -d --volumes-from cds-master-config \
 		--volumes-from cds-master-workspaces --link cds-master-postgresql:db \
-		--link cds-master-ldap:ldap cds-webservices 
+		--link cds-master-ldap:ldap --restart=always cds-webservices 
 	docker run --name cds-master-apache -p 80:80 -d --link cds-master-admin:admin \
 		--link cds-master-webservices:webservices \
 		-e CDS_SERVER_NAME=vrn-test.idgis.nl \
 		-e CDS_WEBSERVICES_SERVER_NAME=vrn-test-services.idgis.nl \
 		-e CDS_SERVER_ADMIN=cds-support@inspire-provincies.nl \
+		--restart=always \
 		cds-apache
 	docker run --name cds-master-cron -d --link cds-master-postgresql:db cds-cron
 		
@@ -81,3 +82,39 @@ Configuration (using environment variables):
 - Apache -> **CDS_SERVER_NAME**: hostname for the admin vhost.
 - Apache -> **CDS_WEBSERVICES_SERVER_NAME**: hostname for the services vhost.
 - Apache -> **CDS_SERVER_ADMIN**: e-mail address for the CDS server administrator.
+
+Restoring database backups
+--------------------------
+
+Stop all services that use the database in order to ensure that all connections are closed:
+
+	docker stop cds-master-cron
+	docker stop cds-master-jobexecutor
+	docker stop cds-master-webservices
+	docker stop cds-master-admin
+
+Import both the manager and the metadata schema by dropping it and recreating it from a backup:
+
+	docker exec -i cds-master-postgresql psql -d cds -c "drop schema manager cascade;"
+	docker exec -i cds-master-postgresql pg_restore --dbname=cds --format=custom --single-transaction < manager.backup
+	docker exec -i cds-master-postgresql psql -d cds -c "drop schema metadata cascade;"
+	docker exec -i cds-master-postgresql pg_restore --dbname=cds --format=custom --single-transaction < metadata.backup
+	
+Start the stopped services again:
+
+	docker start cds-master-admin
+	docker start cds-master-webservices
+	docker start cds-master-jobexecutor
+	docker start cds-master-cron
+	
+Force import of all jobs
+------------------------
+
+The cds-master-cron container schedules new import jobs each night. These jobs, however, first check the metadata
+and only import datasets when the modification date has changed. To force an update of all datasets regardless of
+the modification date run the following command:
+
+	docker exec -i cds-master-postgresql psql -d cds -c "select manager.schedule_jobs_force();"
+	
+This is useful after importing a backup since the last modification date is part of the backup, while the imported
+data is not.
