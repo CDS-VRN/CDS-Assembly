@@ -39,8 +39,8 @@ Create data volume containers:
 
 	docker run -d -v /var/lib/postgresql --name cds-master-dbdata cds-postgresql true
 	docker run -d -v /opt/OpenDS-2.2.1/db --name cds-master-ldapdata cds-ldap true
-	docker run -d -v /var/lib/cds/filecache --name cds-master-filecache cds-base true
 	docker run -d -v /etc/cds/workspaces --name cds-master-workspaces cds-webservices true
+	docker run -d -v /var/lib/cds --name cds-master-metadata cds-admin true
 	
 **Note**: the data volume containers contain the data that is mutated by the CDS components. With the exception of the
 workspaces container this data cannot be reproduced by repeating the installation instructions. Keep this in mind when destroying
@@ -52,7 +52,7 @@ Copy the deegree workspaces into the cds-master-workspaces volume.
 
 Create data volume container containing the CDS configdir:
 
-	docker run --name cds-master-config cds-config
+	docker run --name cds-master-config -e CDS_INSPIRE_HOST=http://vrn-test-services.idgis.nl cds-config
 	
 Create service containers:
 
@@ -60,13 +60,14 @@ Create service containers:
 	docker run --name cds-master-postgresql -P -d --volumes-from cds-master-dbdata --restart=always cds-postgresql
 	docker run --name cds-master-ldap -P -d --volumes-from cds-master-ldapdata --restart=always cds-ldap
 	docker run --name cds-master-admin -P -d --volumes-from cds-master-config \
-		--volumes-from cds-master-filecache --link cds-master-postgresql:db \
+		--volumes-from cds-master-metadata --link cds-master-postgresql:db \
 		--link cds-master-ldap:ldap --restart=always cds-admin
 	docker run --name cds-master-jobexecutor -P -d --volumes-from cds-master-config \
-		--volumes-from cds-master-filecache --link cds-master-postgresql:db \ 
+		--volumes-from cds-master-metadata --link cds-master-postgresql:db \ 
 		--link cds-master-ldap:ldap --restart=always cds-job-executor
 	docker run --name cds-master-webservices -P -d --volumes-from cds-master-config \
 		--volumes-from cds-master-workspaces --link cds-master-postgresql:db \
+		--volumes-from cds-master-metadata \
 		--link cds-master-ldap:ldap --restart=always cds-webservices 
 	docker run --name cds-master-apache -p 80:80 -d --link cds-master-admin:admin \
 		--link cds-master-webservices:webservices \
