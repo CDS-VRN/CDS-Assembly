@@ -22,7 +22,7 @@ echo "mail.from=$CDS_MAIL_FROM" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.propert
 echo "mail.host=$CDS_MAIL_HOST" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 
 # Create metadata properties:
-echo "metadataFolder=/etc/cds/metadata" > /etc/cds/configdir/nl/ipo/cds/metadata/manager.properties
+echo "metadataFolder=/var/lib/cds/metadata" > /etc/cds/configdir/nl/ipo/cds/metadata/manager.properties
 
 # Create monitoring properties:
 echo "awstatsUrls=$CDS_AWSTATS_URL" > /etc/cds/configdir/nl/ipo/cds/monitoring/monitoring.properties
