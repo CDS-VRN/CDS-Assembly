@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ ! -e /var/www/metadata ]; then
+	ln -s /var/lib/cds/metadata /var/www/metadata
+fi
+
 # Create vhost files:
 cat > /etc/apache2/sites-available/cds-admin <<EOF
 <VirtualHost *:80>
@@ -8,6 +12,18 @@ cat > /etc/apache2/sites-available/cds-admin <<EOF
 	
 	ProxyPass /admin ajp://admin:8009/admin
 	ProxyPassReverse /admin ajp://admin:8009/admin
+	
+	DocumentRoot /var/www
+	
+	<Directory /var/www>
+		Options FollowSymLinks -Indexes
+		AllowOverride None
+	</Directory>
+	
+	<Location /metadata>
+		Options +Indexes
+		Dav On
+	</Location>
 </VirtualHost>
 EOF
 
