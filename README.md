@@ -71,6 +71,7 @@ Create service containers:
 		--link cds-master-ldap:ldap --restart=always cds-webservices 
 	docker run --name cds-master-apache -p 80:80 -d --link cds-master-admin:admin \
 		--link cds-master-webservices:webservices \
+		--volumes-from cds-master-metadata \
 		-e CDS_SERVER_NAME=vrn-test.idgis.nl \
 		-e CDS_WEBSERVICES_SERVER_NAME=vrn-test-services.idgis.nl \
 		-e CDS_SERVER_ADMIN=cds-support@inspire-provincies.nl \

@@ -28,7 +28,9 @@ ENV HTCACHECLEAN_PATH /var/cache/apache2/mod_cache_disk
 # Enable required modules:
 RUN a2enmod proxy && \
 	a2enmod proxy_http && \
-	a2enmod proxy_ajp
+	a2enmod proxy_ajp && \
+	a2enmod dav && \
+	a2enmod dav_fs
 	
 # Copy init-script:
 COPY /start-apache.sh /opt/start-apache.sh
