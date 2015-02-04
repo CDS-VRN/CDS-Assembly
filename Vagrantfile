@@ -10,13 +10,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "hashicorp/precise64"
-  
+  config.vm.box = "ubuntu/precise64"
+
   # Provision using a shellscript:
-  config.vm.provision :shell, path: "environment.sh"
-  
+  config.vm.provision :shell, path: "docker-daemon.sh"
+
+  # This line ensures Docker daemon will get installed on the VM.
+  config.vm.provision "docker" do |d|
+  end
+
   # Forward the LDAP port:
-  config.vm.network :forwarded_port, host: 1389, guest: 1389
+  #config.vm.network :forwarded_port, host: 1389, guest: 1389
+  #config.vm.network :forwarded_port, host: 5432, guest: 5432
+  config.vm.network :forwarded_port, host: 2375, guest: 2375
+
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs

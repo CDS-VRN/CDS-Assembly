@@ -1,0 +1,233 @@
+version: 1
+
+dn: ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: organizationalUnit
+ou: Group
+
+dn: cn=beheerder,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: beheerder
+member: uid=admin,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: uid=admin,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: admin
+sn: admin
+mail: none@none.local
+uid: admin
+userPassword:: e1NIQX0wRFBpS3VOSXJyVm1EOElVQ3V3MWhReE5xWmM9
+
+dn: cn=noordbrabant,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: noordbrabant
+member: uid=noordbrabant,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: cn=friesland,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: friesland
+member: uid=friesland,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: cn=drenthe,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: drenthe
+member: uid=drenthe,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: cn=flevoland,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: flevoland
+member: uid=flevoland,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: cn=gelderland,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: gelderland
+member: uid=gelderland,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: cn=groningen,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: groningen
+member: uid=groningen,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: cn=limburg,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: limburg
+member: uid=limburg,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: cn=noordholland,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: noordholland
+member: uid=noordholland,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: cn=overijssel,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: overijssel
+member: uid=overijssel,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: cn=utrecht,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: utrecht
+member: uid=utrecht,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: cn=zeeland,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: zeeland
+member: uid=zeeland,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: cn=zuidholland,ou=Group,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: groupOfNames
+cn: zuidholland
+member: uid=zuidholland,ou=People,dc=inspire,dc=idgis,dc=eu
+
+dn: uid=drenthe,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: drenthe
+sn: drenthe
+mail: none@none.local
+uid: drenthe
+userPassword:: e1NIQX1GUERuQTJ6b01SekFBMzlNd2VLMzZQNVpLbWc9
+
+dn: uid=flevoland,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: flevoland
+sn: flevoland
+mail: none@none.local
+uid: flevoland
+userPassword:: e1NIQX0zQTB3eG13VGQ0UEd4NFVsQ1hWeTFsMFNMSlk9
+
+dn: uid=friesland,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: friesland
+sn: friesland
+mail: none@none.local
+uid: friesland
+userPassword:: e1NIQX00OWdPbGNqNnpYQXUrZ21lRklzQ0tBN2tWZjA9
+
+dn: uid=gelderland,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: gelderland
+sn: gelderland
+mail: none@none.local
+uid: gelderland
+userPassword:: e1NIQX1kaE5MajJQOUxKTWNmeUR3WUFWZ3N3Y1lJaUE9
+
+dn: uid=groningen,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: groningen
+sn: groningen
+mail: none@none.local
+uid: groningen
+userPassword:: e1NIQX1TWnFIRkpsM0Y3V2JtbTdOK3Jybi84Z2RleWs9
+
+dn: uid=limburg,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: limburg
+sn: limburg
+mail: none@none.local
+uid: limburg
+userPassword:: e1NIQX1qQzNBWG15ZEkyc1NpbXBPWE02SVM2dG9MSzQ9
+
+dn: uid=noordbrabant,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: noordbrabant
+sn: noordbrabant
+mail: none@none.local
+uid: noordbrabant
+userPassword:: e1NIQX00OUIzYTdDSnZ1aHJNZ2NBM1NTd21Wb1BKRkk9
+
+dn: uid=noordholland,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: noordholland
+sn: noordholland
+mail: none@none.local
+uid: noordholland
+userPassword:: e1NIQX1VcEFnekhzMzBHQk1wblJ0VHVTTzNLaE9TUlU9
+
+dn: uid=overijssel,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: overijssel
+sn: overijssel
+mail: none@none.local
+uid: overijssel
+userPassword:: e1NIQX1tM1o4aGN6K1I4WDVkdkg1WFhmUmJDT0RJNUU9
+
+dn: uid=utrecht,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: utrecht
+sn: utrecht
+mail: none@none.local
+uid: utrecht
+userPassword:: e1NIQX1yM2MzSmU0Q3p5SDFWR1NCT2NkU3QvUlVMRm89
+
+dn: uid=zeeland,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: zeeland
+sn: zeeland
+mail: none@none.local
+uid: zeeland
+userPassword:: e1NIQX05aGYzdHBxZmZnSzZKQVNJNHdlVkoxLzV0RDA9
+
+dn: uid=zuidholland,ou=People,dc=inspire,dc=idgis,dc=eu
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: zuidholland
+sn: zuidholland
+mail: none@none.local
+uid: zuidholland
+userPassword:: e1NIQX1QYjNnbXM4Vi9mbUxiRDYvMEdqY0kyRlpRbGs9
+

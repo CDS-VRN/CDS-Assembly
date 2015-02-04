@@ -17,12 +17,17 @@ RUN chmod u+x /opt/OpenDS-2.2.1/setup && \
 	chmod u+x /opt/OpenDS-2.2.1/bin/* && \
 	chmod u+x /opt/OpenDS-2.2.1/lib/*
 	
-# Populate OpenDS with an initial LDIF-file:
-COPY ldap-ontw.ldif /usr/share/cds/ldif/
 
-# Setup OpenDS:	
-RUN /opt/OpenDS-2.2.1/setup -i -n -b dc=inspire,dc=idgis,dc=eu -D cn=admin,dc=inspire,dc=idgis,dc=eu -w admin -p 389 -a && \
-	/opt/OpenDS-2.2.1/bin/ldapmodify -p 389 -h localhost -D cn=admin,dc=inspire,dc=idgis,dc=eu -w admin -a -f /usr/share/cds/ldif/ldap-ontw.ldif
+# Copy LDAP schema diffs.
+# 1) When deployed on a new server, the create-or-update-ldap.sh script uses the data of ldap-init.ldif
+#    to create the initial LDAP schema.
+# 2) When deployed on a server that has a previous version running, create-or-update-ldap.sh will look for a sequence of
+#    update_<old version>_<new version>.ldif files and apply these to the LDAP database.
+#    E.g. update_2.2_2.2-vrn-0.1.ldif , update_2.2-vrn-0.1_2.2-vrn-0.2.ldif to update from 2.2 to 2.2-vrn-0.2.
+ADD *.ldif /usr/share/cds/ldif/
+COPY init-or-update-ldap.sh /opt/init-or-update-ldap.sh
+RUN chmod +x /opt/init-or-update-ldap.sh
+RUN ["/bin/bash", "-c", "/opt/init-or-update-ldap.sh"]
 
 EXPOSE 389
 

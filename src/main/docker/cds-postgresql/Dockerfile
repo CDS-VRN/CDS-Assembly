@@ -1,7 +1,6 @@
 FROM cds-base
 MAINTAINER erik.orbons@idgis.nl
 
-ADD sql/*.sql /usr/share/cds/sql/
 
 RUN apt-get update && \
         apt-get install -y \
@@ -10,6 +9,17 @@ RUN apt-get update && \
         postgresql-9.1-postgis \
         language-pack-en
 
+
+# Copy database schema scripts into image volume.
+# 1) When deployed on a new server, the start.sh file uses the data of create-db.sql and add-themes.sql
+#    to create the initial database schema.
+# 2) When deployed on a server that has a previous version running, start.sh will look for a sequence of
+#    update_<old version>_<new version>.sql files and apply these to the database.
+#    E.g. update_2.2_2.2-vrn-0.1.sql , update_2.2-vrn-0.1_2.2-vrn-0.2.sql to update from 2.2 to 2.2-vrn-0.2.
+ADD sql/*.sql /usr/share/cds/sql/
+COPY init-or-update-db.sh /opt/init-or-update-db.sh
+RUN chmod +x /opt/init-or-update-db.sh
+
 # Run the remainder of the commands under the postgres user:
 USER postgres
 
@@ -17,24 +27,10 @@ RUN echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/9.1/main/pg_hba.conf
 
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.1/main/postgresql.conf
 
-# Create a CDS owner, postgis template and CDS database:
-RUN /etc/init.d/postgresql start && \
-        psql --command "CREATE USER inspire WITH PASSWORD 'inspire';" && \
-        psql --command "CREATE USER nagios;" && \
-        createdb -l en_US.UTF8 -E UTF8 -T template0 template_postgis && \
-        psql -d postgres -c "UPDATE pg_database SET datistemplate='true' WHERE datname='template_postgis';" && \
-        psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql && \
-        psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql && \
-        psql -d template_postgis -c "GRANT ALL ON geometry_columns TO PUBLIC;" && \
-        psql -d template_postgis -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;" && \
-        psql -d template_postgis -c "GRANT ALL ON geography_columns TO PUBLIC;" && \
-        createdb -l en_US.UTF8 -O inspire -E UTF8 -T template_postgis cds && \
-        psql -d cds -f /usr/share/cds/sql/create-database.sql && \
-        psql -d cds -f /usr/share/cds/sql/add-themes.sql
-
 
 EXPOSE 5432
 
 VOLUME ["/etc/postgresql", "/var/log/postgresql"]
 
-CMD ["/usr/lib/postgresql/9.1/bin/postgres", "-D", "/var/lib/postgresql/9.1/main", "-c", "config_file=/etc/postgresql/9.1/main/postgresql.conf"]
+CMD ["/bin/bash", "-c", "/opt/start.sh"]
+
