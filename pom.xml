@@ -5,6 +5,19 @@
 	<packaging>jar</packaging>
 	<version>2.3-SNAPSHOT</version>
 
+	<repositories>
+		<repository>
+			<id>geotools-repo</id>
+			<url>http://download.osgeo.org/webdav/geotools/</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>	
+	</repositories>
+	
 	<properties>
 		<cds-version>2.3-SNAPSHOT</cds-version>
 		<cds-ipo-version>2.3-SNAPSHOT</cds-ipo-version>
