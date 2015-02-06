@@ -3,12 +3,12 @@
 	<groupId>nl.ipo.cds.ipo</groupId>
 	<artifactId>assembly</artifactId>
 	<packaging>jar</packaging>
-	<version>2.2</version>
+	<version>2.2-vrn-1.0-SNAPSHOT</version>
 
 	<properties>
 		<!-- IPO version is used to tag docker images. -->
-		<cds-ipo.version>2.2</cds-ipo.version>
-		<cds.version>2.2</cds.version>
+		<cds-ipo.version>2.2-vrn-1.0-SNAPSHOT</cds-ipo.version>
+		<cds.version>2.2-vrn-1.0-SNAPSHOT</cds.version>
 		<docker.tomcat.version>1.0</docker.tomcat.version>
 		<docker.base.version>1.0</docker.base.version>
 	</properties>
@@ -508,6 +508,12 @@
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
+								<artifactItem>
+									<groupId>nl.ipo.cds.ipo</groupId>
+									<artifactId>vrn-themes</artifactId>
+									<type>zip</type>
+									<classifier>sql</classifier>
+								</artifactItem>
 							</artifactItems>
 						</configuration>
 					</execution>
@@ -549,7 +555,11 @@
 								<mkdir dir="${project.build.directory}/sql" />
 								<concat destfile="${project.build.directory}/sql/create-database.sql">
 									<header>begin;</header>
-									<filelist dir="${project.build.directory}/dependency/sql" files="create-manager-schema.sql,cds-schema.sql,add-delete-cascade.sql,create-manager-geometry.sql,update-manager-timezones.sql,create-manager-indexes.sql,create-manager-views.sql,grant-manager-schema.sql,create-metadata-schema.sql,cds-metadata-schema.sql,grant-metadata-schema.sql,create-inspire-schema.sql,grant-inspire-schema.sql,create-job-scheduler.sql,populate-manager-schema.sql,create-bron-schema.sql" />
+									<filelist dir="${project.build.directory}/dependency/sql"
+											  files="create-manager-schema.sql,cds-schema.sql,add-delete-cascade.sql,create-manager-geometry.sql,update-manager-timezones.sql,create-manager-indexes.sql,create-manager-views.sql,grant-manager-schema.sql,create-metadata-schema.sql,cds-metadata-schema.sql,grant-metadata-schema.sql,create-inspire-schema.sql,grant-inspire-schema.sql,create-job-scheduler.sql,populate-manager-schema.sql,create-bron-schema.sql" />
+									<path>
+										<fileset dir="${project.build.directory}/dependency/sql" includes="vrn_create_*.sql" />
+									</path>
 									<footer>commit;</footer>
 								</concat>
 								<concat destfile="${project.build.directory}/sql/add-themes.sql">
@@ -559,6 +569,7 @@
 										<fileset dir="${project.build.directory}/dependency/sql" includes="create-inspire-schema-*.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="populate-manager-schema-*.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="populate-metadata-schema-*.sql" />
+										<fileset dir="${project.build.directory}/dependency/sql" includes="vrn_insert_*.sql" />
 									</path>
 									<footer>commit;</footer>
 								</concat>
@@ -941,6 +952,13 @@
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>theme-riskzone</artifactId>
+				<version>${cds.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>nl.ipo.cds.ipo</groupId>
+				<artifactId>vrn-themes</artifactId>
 				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
