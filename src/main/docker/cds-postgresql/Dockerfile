@@ -1,4 +1,4 @@
-FROM cds-base
+FROM cds-base:1.0
 MAINTAINER erik.orbons@idgis.nl
 
 
@@ -17,8 +17,8 @@ RUN apt-get update && \
 #    update_<old version>_<new version>.sql files and apply these to the database.
 #    E.g. update_2.2_2.2-vrn-0.1.sql , update_2.2-vrn-0.1_2.2-vrn-0.2.sql to update from 2.2 to 2.2-vrn-0.2.
 ADD sql/*.sql /usr/share/cds/sql/
-COPY init-or-update-db.sh /opt/init-or-update-db.sh
-RUN chmod +x /opt/init-or-update-db.sh
+COPY start.sh /opt/start.sh
+RUN chmod +x /opt/start.sh
 
 # Run the remainder of the commands under the postgres user:
 USER postgres

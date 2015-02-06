@@ -4,6 +4,7 @@ if [ ! -e /var/www/metadata ]; then
 	ln -s /var/lib/cds/metadata /var/www/metadata
 fi
 
+
 # Create vhost files:
 cat > /etc/apache2/sites-available/cds-admin <<EOF
 <VirtualHost *:80>
@@ -38,5 +39,6 @@ echo "</VirtualHost>" >> /etc/apache2/sites-available/cds-webservices
 
 a2ensite cds-admin
 a2ensite cds-webservices
+a2dissite default
 
 /usr/sbin/apache2 -DFOREGROUND

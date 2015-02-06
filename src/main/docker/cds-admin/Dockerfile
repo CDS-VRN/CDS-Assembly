@@ -1,4 +1,4 @@
-FROM cds-tomcat
+FROM cds-tomcat:1.0
 MAINTAINER erik.orbons@idgis.nl
 
 COPY /webapps/admin.war /var/lib/tomcat7/webapps/

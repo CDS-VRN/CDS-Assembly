@@ -9,6 +9,8 @@
 		<!-- IPO version is used to tag docker images. -->
 		<cds-ipo.version>2.2</cds-ipo.version>
 		<cds.version>2.2</cds.version>
+		<docker.tomcat.version>1.0</docker.tomcat.version>
+		<docker.base.version>1.0</docker.base.version>
 	</properties>
 
 	<scm>
@@ -134,11 +136,8 @@
 									<buildDirectory>${project.build.directory}/docker/cds-base</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-base</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-base</imageName>
+									<imageName>cds-base:${docker.base.version}</imageName>
 									<skipDockerBuild>${docker.skip-base}</skipDockerBuild>
-									<imageTags>
-										<tag>${cds-ipo.version}</tag>
-									</imageTags>
 								</configuration>
 							</execution>
 
@@ -153,7 +152,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-config</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-config</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-config</imageName>
+									<imageName>cds-config:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-config}</skipDockerBuild>
 									
 									<resources>
@@ -162,9 +161,6 @@
 											<directory>${project.build.directory}/config</directory>
 										</resource>
 									</resources>
-									<imageTags>
-										<tag>${cds-ipo.version}</tag>
-									</imageTags>
 								</configuration>
 							</execution>
 							
@@ -179,7 +175,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-postgresql</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-postgresql</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-postgresql</imageName>
+									<imageName>cds-postgresql:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-postgresql}</skipDockerBuild>
 									
 									<resources>
@@ -189,10 +185,6 @@
 											<include>*.sql</include>
 										</resource>
 									</resources>
-									<imageTags>
-										<tag>${cds-ipo.version}</tag>
-									</imageTags>
-
 								</configuration>
 							</execution>
 							
@@ -207,11 +199,8 @@
 									<buildDirectory>${project.build.directory}/docker/cds-ldap</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-ldap</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-ldap</imageName>
+									<imageName>cds-ldap:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-ldap}</skipDockerBuild>
-									<imageTags>
-										<tag>${cds-ipo.version}</tag>
-									</imageTags>
 								</configuration>
 							</execution>
 
@@ -226,11 +215,8 @@
 									<buildDirectory>${project.build.directory}/docker/cds-tomcat</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-tomcat</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-tomcat</imageName>
+									<imageName>cds-tomcat:${docker.tomcat.version}</imageName>
 									<skipDockerBuild>${docker.skip-tomcat}</skipDockerBuild>
-									<imageTags>
-										<tag>${cds-ipo.version}</tag>
-									</imageTags>
 								</configuration>
 							</execution>
 							
@@ -245,7 +231,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-admin</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-admin</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-admin</imageName>
+									<imageName>cds-admin:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-admin}</skipDockerBuild>
 									
 									<resources>
@@ -255,9 +241,6 @@
 											<include>admin.war</include>
 										</resource>
 									</resources>
-									<imageTags>
-										<tag>${cds-ipo.version}</tag>
-									</imageTags>
 								</configuration>
 							</execution>
 														
@@ -272,7 +255,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-webservices</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-webservices</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-webservices</imageName>
+									<imageName>cds-webservices:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-webservices}</skipDockerBuild>
 									
 									<resources>
@@ -283,9 +266,6 @@
 										</resource>
 									</resources>
 
-									<imageTags>
-										<tag>${cds-ipo.version}</tag>
-									</imageTags>
 								</configuration>
 							</execution>
 							
@@ -300,7 +280,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-job-executor</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-job-executor</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-job-executor</imageName>
+									<imageName>cds-job-executor:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-job-executor}</skipDockerBuild>
 									
 									<resources>
@@ -310,9 +290,6 @@
 											<include>*.jar</include>
 										</resource>
 									</resources>
-									<imageTags>
-										<tag>${cds-ipo.version}</tag>
-									</imageTags>
 								</configuration>
 							</execution>
 							
@@ -327,11 +304,8 @@
 									<buildDirectory>${project.build.directory}/docker/cds-postfix</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-postfix</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-postfix</imageName>
+									<imageName>cds-postfix:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-postfix}</skipDockerBuild>
-									<imageTags>
-										<tag>${cds-ipo.version}</tag>
-									</imageTags>
 								</configuration>
 							</execution>
 							
@@ -346,11 +320,8 @@
 									<buildDirectory>${project.build.directory}/docker/cds-apache</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-apache</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-apache</imageName>
+									<imageName>cds-apache:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-apache}</skipDockerBuild>
-									<imageTags>
-										<tag>${cds-ipo.version}</tag>
-									</imageTags>
 								</configuration>
 							</execution>
 							
@@ -365,11 +336,8 @@
 									<buildDirectory>${project.build.directory}/docker/cds-cron</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-cron</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-cron</imageName>
+									<imageName>cds-cron:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-cron}</skipDockerBuild>
-									<imageTags>
-										<tag>${cds-ipo.version}</tag>
-									</imageTags>
 								</configuration>
 							</execution>
 							

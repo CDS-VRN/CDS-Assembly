@@ -1,4 +1,4 @@
-FROM cds-base
+FROM cds-base:1.0
 MAINTAINER erik.orbons@idigs.nl
 
 RUN apt-get update && \
