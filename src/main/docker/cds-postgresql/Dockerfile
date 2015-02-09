@@ -7,7 +7,8 @@ RUN apt-get update && \
         postgresql-9.1 \
         postgresql-client-9.1 \
         postgresql-9.1-postgis \
-        language-pack-en
+        language-pack-en \
+        python
 
 
 # Copy database schema scripts into image volume.
@@ -16,8 +17,9 @@ RUN apt-get update && \
 # 2) When deployed on a server that has a previous version running, start.sh will look for a sequence of
 #    update_<old version>_<new version>.sql files and apply these to the database.
 #    E.g. update_2.2_2.2-vrn-0.1.sql , update_2.2-vrn-0.1_2.2-vrn-0.2.sql to update from 2.2 to 2.2-vrn-0.2.
-ADD sql/*.sql /usr/share/cds/sql/
+ADD sql/ /usr/share/cds/sql/
 COPY start.sh /opt/start.sh
+COPY database_update.py /opt/database_update.py
 RUN chmod +x /opt/start.sh
 
 # Run the remainder of the commands under the postgres user:
