@@ -59,12 +59,14 @@
 										<artifactItem>
 											<groupId>nl.ipo.cds.ipo</groupId>
 											<artifactId>ipo-admin</artifactId>
+											<version>${cds-ipo.version}</version>
 											<type>war</type>
 											<destFileName>admin.war</destFileName>			
 										</artifactItem>
 										<artifactItem>
 											<groupId>nl.ipo.cds</groupId>
 											<artifactId>deegree-webservices-cds</artifactId>
+											<version>${cds-ipo.version}</version>
 											<type>war</type>
 											<destFileName>deegree.war</destFileName>
 										</artifactItem>
@@ -86,6 +88,7 @@
 										<artifactItem>
 											<groupId>nl.ipo.cds.ipo</groupId>
 											<artifactId>ipo-job-executor-exec</artifactId>
+											<version>${cds-ipo.version}</version>
 											<type>jar</type>
 											<destFileName>job-executor.jar</destFileName>
 										</artifactItem>
@@ -107,6 +110,7 @@
 										<artifactItem>
 											<groupId>nl.ipo.cds</groupId>
 											<artifactId>resources</artifactId>
+											<version>${cds-ipo.version}</version>
 											<classifier>prod</classifier>
 											<type>jar</type>
 										</artifactItem>
@@ -389,18 +393,22 @@
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>ipo-job-executor-exec</artifactId>
+									<version>${cds-ipo.version}</version>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>etl-proces</artifactId>
+									<version>${cds-ipo.version}</version>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>etl-proces</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
+									<version>${cds-ipo.version}</version>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>managerDB</artifactId>
 									<type>zip</type>
@@ -409,108 +417,126 @@
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>metadataDB</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-areamanagement</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-buisleidingen</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-bvb</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-exposedelements</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-habitat</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-hazardarea</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-monster</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-monsterpunt</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-productionfacility</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-productioninstallation</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-productioninstallationpart</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-productioninstallationpart</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-protectedsites</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-resultaat</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-riscisor</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-riskzone</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>vrn-themes</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
