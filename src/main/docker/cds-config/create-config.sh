@@ -21,6 +21,7 @@ echo "numberOfThreads=10" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.smtpHost=mail" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.smtpPort=25" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.from=$CDS_MAIL_FROM" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
+echo "mail.host=$CDS_MAIL_HOST" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "bronhouderAreaMargin=1" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 
 # Create metadata properties:
