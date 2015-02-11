@@ -188,6 +188,11 @@
 											<directory>${project.build.directory}/sql</directory>
 											<include>*.sql</include>
 										</resource>
+										<resource>
+											<targetPath>/sql/updates</targetPath>
+											<directory>${project.build.directory}/sql/updates</directory>
+											<include>*.sql</include>
+										</resource>
 									</resources>
 								</configuration>
 							</execution>
