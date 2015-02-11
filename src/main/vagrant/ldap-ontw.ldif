@@ -10,11 +10,23 @@ objectClass: top
 objectClass: organizationalUnit
 ou: Group
 
-dn: cn=beheerder,ou=Group,dc=inspire,dc=idgis,dc=eu
+dn: cn=cds-gebruikers,ou=Group,dc=inspire,dc=idgis,dc=eu
 objectClass: top
 objectClass: groupOfNames
-cn: beheerder
+cn: cds-gebruikers
 member: uid=admin,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=drenthe,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=flevoland,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=friesland,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=gelderland,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=groningen,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=limburg,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=noordbrabant,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=noordholland,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=overijssel,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=utrecht,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=zeeland,ou=People,dc=inspire,dc=idgis,dc=eu
+member: uid=zuidholland,ou=People,dc=inspire,dc=idgis,dc=eu
 
 dn: uid=admin,ou=People,dc=inspire,dc=idgis,dc=eu
 objectClass: top
@@ -26,78 +38,6 @@ sn: admin
 mail: none@none.local
 uid: admin
 userPassword:: e1NIQX0wRFBpS3VOSXJyVm1EOElVQ3V3MWhReE5xWmM9
-
-dn: cn=noordbrabant,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: noordbrabant
-member: uid=noordbrabant,ou=People,dc=inspire,dc=idgis,dc=eu
-
-dn: cn=friesland,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: friesland
-member: uid=friesland,ou=People,dc=inspire,dc=idgis,dc=eu
-
-dn: cn=drenthe,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: drenthe
-member: uid=drenthe,ou=People,dc=inspire,dc=idgis,dc=eu
-
-dn: cn=flevoland,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: flevoland
-member: uid=flevoland,ou=People,dc=inspire,dc=idgis,dc=eu
-
-dn: cn=gelderland,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: gelderland
-member: uid=gelderland,ou=People,dc=inspire,dc=idgis,dc=eu
-
-dn: cn=groningen,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: groningen
-member: uid=groningen,ou=People,dc=inspire,dc=idgis,dc=eu
-
-dn: cn=limburg,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: limburg
-member: uid=limburg,ou=People,dc=inspire,dc=idgis,dc=eu
-
-dn: cn=noordholland,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: noordholland
-member: uid=noordholland,ou=People,dc=inspire,dc=idgis,dc=eu
-
-dn: cn=overijssel,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: overijssel
-member: uid=overijssel,ou=People,dc=inspire,dc=idgis,dc=eu
-
-dn: cn=utrecht,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: utrecht
-member: uid=utrecht,ou=People,dc=inspire,dc=idgis,dc=eu
-
-dn: cn=zeeland,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: zeeland
-member: uid=zeeland,ou=People,dc=inspire,dc=idgis,dc=eu
-
-dn: cn=zuidholland,ou=Group,dc=inspire,dc=idgis,dc=eu
-objectClass: top
-objectClass: groupOfNames
-cn: zuidholland
-member: uid=zuidholland,ou=People,dc=inspire,dc=idgis,dc=eu
 
 dn: uid=drenthe,ou=People,dc=inspire,dc=idgis,dc=eu
 objectClass: top
