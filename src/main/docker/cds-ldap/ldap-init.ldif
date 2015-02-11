@@ -37,7 +37,7 @@ cn: admin
 sn: admin
 mail: none@none.local
 uid: admin
-userPassword:: e1NIQX0wRFBpS3VOSXJyVm1EOElVQ3V3MWhReE5xWmM9
+userPassword:: e3NoYX0wRFBpS3VOSXJyVm1EOElVQ3V3MWhReE5xWmM9
 
 dn: uid=drenthe,ou=People,dc=inspire,dc=idgis,dc=eu
 objectClass: top
