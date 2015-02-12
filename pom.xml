@@ -22,6 +22,7 @@
 		<!-- IPO version is used to tag docker images. -->
 		<cds-ipo.version>2.2-vrn-1.0-SNAPSHOT</cds-ipo.version>
 		<cds.version>2.2-vrn-1.0-SNAPSHOT</cds.version>
+		<cds-risicokaart.version>2.2</cds-risicokaart.version>
 		<docker.tomcat.version>1.0</docker.tomcat.version>
 		<docker.base.version>1.0</docker.base.version>
 	</properties>
@@ -82,6 +83,13 @@
 											<version>${cds-ipo.version}</version>
 											<type>war</type>
 											<destFileName>deegree.war</destFileName>
+										</artifactItem>
+										<artifactItem>
+											<groupId>nl.ipo.cds</groupId>
+											<artifactId>risicokaart-export-webapp</artifactId>
+											<version>${cds-risicokaart.version}</version>
+											<type>war</type>
+											<destFileName>risicokaart-export.war</destFileName>
 										</artifactItem>
 									</artifactItems>
 									<outputDirectory>${project.build.directory}/webapps</outputDirectory>
@@ -285,6 +293,11 @@
 											<targetPath>/webapps</targetPath>
 											<directory>${project.build.directory}/webapps</directory>
 											<include>deegree.war</include>
+										</resource>
+										<resource>
+											<targetPath>/webapps</targetPath>
+											<directory>${project.build.directory}/webapps</directory>
+											<include>risicokaart-export.war</include>
 										</resource>
 									</resources>
 
@@ -1008,6 +1021,13 @@
 				<artifactId>vrn-themes</artifactId>
 				<version>${cds.version}</version>
 				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>nl.ipo.cds</groupId>
+				<artifactId>risicokaart-export-webapp</artifactId>
+				<version>${cds-risicokaart.version}</version>
+				<type>war</type>
 				<scope>compile</scope>
 			</dependency>
 		</dependencies>
