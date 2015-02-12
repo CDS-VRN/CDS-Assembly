@@ -1,4 +1,4 @@
-FROM cds-base
+FROM cds-base:1.0
 
 ENV CDS_SERVICES ProtectedSites AgriculturalAndAquacultureFacilities AreaManagement EnvironmentalMonitoringFacilities HabitatsAndBiotopes NaturalRiskZones ProductionAndIndustrialFacilities
 ENV CDS_SERVER_NAME www.inspire-provincies.nl
@@ -35,7 +35,8 @@ RUN a2enmod proxy && \
 # Copy init-script:
 COPY /start-apache.sh /opt/start-apache.sh
 RUN chmod +x /opt/start-apache.sh
- 
+RUN echo "ServerName cds-vrn-acc.geodan.nl" >> /etc/apache2/httpd.conf
+
 VOLUME /var/log/apache2
 
 # Start Apache:

@@ -1,4 +1,4 @@
-FROM cds-tomcat
+FROM cds-tomcat:1.0
 MAINTAINER erik.orbons@idgis.nl
 
 ENV JAVA_OPTS $JAVA_OPTS -DDEEGREE_WORKSPACE_ROOT=/etc/cds/workspaces

@@ -19,8 +19,11 @@
 	</repositories>
 	
 	<properties>
-		<cds-version>2.2-vrn-1.0-SNAPSHOT</cds-version>
-		<cds-ipo-version>2.2-vrn-1.0-SNAPSHOT</cds-ipo-version>
+		<!-- IPO version is used to tag docker images. -->
+		<cds-ipo.version>2.2-vrn-1.0-SNAPSHOT</cds-ipo.version>
+		<cds.version>2.2-vrn-1.0-SNAPSHOT</cds.version>
+		<docker.tomcat.version>1.0</docker.tomcat.version>
+		<docker.base.version>1.0</docker.base.version>
 	</properties>
 
 	<scm>
@@ -45,7 +48,7 @@
 				<docker.skip-admin>false</docker.skip-admin>
 				<docker.skip-webservices>false</docker.skip-webservices>
 				<docker.skip-job-executor>false</docker.skip-job-executor>
-				<docker.skip-postfix>false</docker.skip-postfix>
+				<docker.skip-postfix>true</docker.skip-postfix>
 				<docker.skip-apache>false</docker.skip-apache>
 				<docker.skip-cron>false</docker.skip-cron>
 			</properties>
@@ -69,12 +72,14 @@
 										<artifactItem>
 											<groupId>nl.ipo.cds.ipo</groupId>
 											<artifactId>ipo-admin</artifactId>
+											<version>${cds-ipo.version}</version>
 											<type>war</type>
 											<destFileName>admin.war</destFileName>			
 										</artifactItem>
 										<artifactItem>
 											<groupId>nl.ipo.cds</groupId>
 											<artifactId>deegree-webservices-cds</artifactId>
+											<version>${cds-ipo.version}</version>
 											<type>war</type>
 											<destFileName>deegree.war</destFileName>
 										</artifactItem>
@@ -96,6 +101,7 @@
 										<artifactItem>
 											<groupId>nl.ipo.cds.ipo</groupId>
 											<artifactId>ipo-job-executor-exec</artifactId>
+											<version>${cds-ipo.version}</version>
 											<type>jar</type>
 											<destFileName>job-executor.jar</destFileName>
 										</artifactItem>
@@ -117,6 +123,7 @@
 										<artifactItem>
 											<groupId>nl.ipo.cds</groupId>
 											<artifactId>resources</artifactId>
+											<version>${cds-ipo.version}</version>
 											<classifier>prod</classifier>
 											<type>jar</type>
 										</artifactItem>
@@ -146,11 +153,11 @@
 									<buildDirectory>${project.build.directory}/docker/cds-base</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-base</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-base</imageName>
+									<imageName>cds-base:${docker.base.version}</imageName>
 									<skipDockerBuild>${docker.skip-base}</skipDockerBuild>
 								</configuration>
 							</execution>
-							
+
 							<!-- Build config image (cds-config): -->
 							<execution>
 								<id>build-cds-config</id>
@@ -162,7 +169,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-config</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-config</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-config</imageName>
+									<imageName>cds-config:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-config}</skipDockerBuild>
 									
 									<resources>
@@ -185,7 +192,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-postgresql</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-postgresql</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-postgresql</imageName>
+									<imageName>cds-postgresql:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-postgresql}</skipDockerBuild>
 									
 									<resources>
@@ -194,8 +201,12 @@
 											<directory>${project.build.directory}/sql</directory>
 											<include>*.sql</include>
 										</resource>
+										<resource>
+											<targetPath>/sql/updates</targetPath>
+											<directory>${project.build.directory}/sql/updates</directory>
+											<include>*.sql</include>
+										</resource>
 									</resources>
-									
 								</configuration>
 							</execution>
 							
@@ -210,7 +221,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-ldap</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-ldap</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-ldap</imageName>
+									<imageName>cds-ldap:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-ldap}</skipDockerBuild>
 								</configuration>
 							</execution>
@@ -226,7 +237,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-tomcat</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-tomcat</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-tomcat</imageName>
+									<imageName>cds-tomcat:${docker.tomcat.version}</imageName>
 									<skipDockerBuild>${docker.skip-tomcat}</skipDockerBuild>
 								</configuration>
 							</execution>
@@ -242,7 +253,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-admin</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-admin</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-admin</imageName>
+									<imageName>cds-admin:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-admin}</skipDockerBuild>
 									
 									<resources>
@@ -266,7 +277,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-webservices</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-webservices</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-webservices</imageName>
+									<imageName>cds-webservices:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-webservices}</skipDockerBuild>
 									
 									<resources>
@@ -276,7 +287,7 @@
 											<include>deegree.war</include>
 										</resource>
 									</resources>
-									
+
 								</configuration>
 							</execution>
 							
@@ -291,7 +302,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-job-executor</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-job-executor</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-job-executor</imageName>
+									<imageName>cds-job-executor:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-job-executor}</skipDockerBuild>
 									
 									<resources>
@@ -315,7 +326,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-postfix</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-postfix</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-postfix</imageName>
+									<imageName>cds-postfix:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-postfix}</skipDockerBuild>
 								</configuration>
 							</execution>
@@ -331,7 +342,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-apache</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-apache</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-apache</imageName>
+									<imageName>cds-apache:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-apache}</skipDockerBuild>
 								</configuration>
 							</execution>
@@ -347,7 +358,7 @@
 									<buildDirectory>${project.build.directory}/docker/cds-cron</buildDirectory>
 									<dockerDirectory>${basedir}/src/main/docker/cds-cron</dockerDirectory>
 									<dockerHost>${docker.host}</dockerHost>
-									<imageName>cds-cron</imageName>
+									<imageName>cds-cron:${cds-ipo.version}</imageName>
 									<skipDockerBuild>${docker.skip-cron}</skipDockerBuild>
 								</configuration>
 							</execution>
@@ -372,7 +383,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<finalName>cds-${cds-version}</finalName>
+					<finalName>cds-${cds.version}</finalName>
 					<appendAssemblyId>true</appendAssemblyId>
 					<descriptors>
 						<descriptor>src/main/assembly/assembly-software.xml</descriptor>
@@ -400,18 +411,22 @@
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>ipo-job-executor-exec</artifactId>
+									<version>${cds-ipo.version}</version>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>etl-proces</artifactId>
+									<version>${cds-ipo.version}</version>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>etl-proces</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
+									<version>${cds-ipo.version}</version>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>managerDB</artifactId>
 									<type>zip</type>
@@ -420,102 +435,126 @@
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>metadataDB</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-areamanagement</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-buisleidingen</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-bvb</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-exposedelements</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-habitat</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-hazardarea</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-monster</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-monsterpunt</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-productionfacility</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-productioninstallation</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-productioninstallationpart</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-productioninstallationpart</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-protectedsites</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-resultaat</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds.ipo</groupId>
 									<artifactId>theme-riscisor</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
 								<artifactItem>
 									<groupId>nl.ipo.cds</groupId>
 									<artifactId>theme-riskzone</artifactId>
+									<version>${cds-ipo.version}</version>
+									<type>zip</type>
+									<classifier>sql</classifier>
+								</artifactItem>
+								<artifactItem>
+									<groupId>nl.ipo.cds.ipo</groupId>
+									<artifactId>vrn-themes</artifactId>
+									<version>${cds-ipo.version}</version>
 									<type>zip</type>
 									<classifier>sql</classifier>
 								</artifactItem>
@@ -560,7 +599,11 @@
 								<mkdir dir="${project.build.directory}/sql" />
 								<concat destfile="${project.build.directory}/sql/create-database.sql">
 									<header>begin;</header>
-									<filelist dir="${project.build.directory}/dependency/sql" files="create-manager-schema.sql,cds-schema.sql,add-delete-cascade.sql,create-manager-geometry.sql,update-manager-timezones.sql,create-manager-indexes.sql,create-manager-views.sql,grant-manager-schema.sql,create-metadata-schema.sql,cds-metadata-schema.sql,grant-metadata-schema.sql,create-inspire-schema.sql,grant-inspire-schema.sql,create-job-scheduler.sql,populate-manager-schema.sql,create-bron-schema.sql" />
+									<filelist dir="${project.build.directory}/dependency/sql"
+											  files="create-manager-schema.sql,cds-schema.sql,add-delete-cascade.sql,create-manager-geometry.sql,update-manager-timezones.sql,create-manager-indexes.sql,create-manager-views.sql,grant-manager-schema.sql,create-metadata-schema.sql,cds-metadata-schema.sql,grant-metadata-schema.sql,create-inspire-schema.sql,grant-inspire-schema.sql,create-job-scheduler.sql,populate-manager-schema.sql,create-bron-schema.sql" />
+									<path>
+										<fileset dir="${project.build.directory}/dependency/sql" includes="vrn_create_*.sql" />
+									</path>
 									<footer>commit;</footer>
 								</concat>
 								<concat destfile="${project.build.directory}/sql/add-themes.sql">
@@ -570,9 +613,13 @@
 										<fileset dir="${project.build.directory}/dependency/sql" includes="create-inspire-schema-*.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="populate-manager-schema-*.sql" />
 										<fileset dir="${project.build.directory}/dependency/sql" includes="populate-metadata-schema-*.sql" />
+										<fileset dir="${project.build.directory}/dependency/sql" includes="vrn_insert_*.sql" />
 									</path>
 									<footer>commit;</footer>
 								</concat>
+								<copy todir="${project.build.directory}/sql/updates">
+									<fileset dir="${project.build.directory}/dependency/sql/updates" />
+								</copy>
 							</tasks>
 						</configuration>
 					</execution>
@@ -701,84 +748,84 @@
 			<dependency>
 				<groupId>nl.ipo.cds.ipo</groupId>
 				<artifactId>ipo-admin</artifactId>				
-				<version>${cds-ipo-version}</version>
+				<version>${cds-ipo.version}</version>
 				<type>war</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>cds-test</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>commons</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>deegree-extension</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>domain</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds.ipo</groupId>
 				<artifactId>ipo-job-executor-exec</artifactId>
-				<version>${cds-ipo-version}</version>
+				<version>${cds-ipo.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>etl-proces</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>etl-reporting</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>managerDB</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>resources</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>deegree-webservices-cds</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>war</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>managerDB</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>zip</type>
 				<classifier>sql</classifier>
 				<scope>compile</scope>
@@ -786,7 +833,7 @@
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>metadataDB</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>zip</type>
 				<classifier>sql</classifier>
 				<scope>compile</scope>
@@ -794,28 +841,28 @@
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>resources</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<classifier>tst</classifier>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>resources</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<classifier>acc</classifier>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>resources</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<classifier>prod</classifier>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds.ipo</groupId>
 				<artifactId>ipo-job-executor-exec</artifactId>
-				<version>${cds-ipo-version}</version>
+				<version>${cds-ipo.version}</version>
 				<type>jar</type>
 				<classifier>manager</classifier>
 				<scope>compile</scope>
@@ -823,7 +870,7 @@
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>etl-proces</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<classifier>manager</classifier>
 				<scope>compile</scope>
@@ -831,7 +878,7 @@
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>etl-proces</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>zip</type>
 				<classifier>sql</classifier>
 				<scope>compile</scope>
@@ -839,7 +886,7 @@
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>resources</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<classifier>tests</classifier>
 				<scope>compile</scope>
@@ -847,112 +894,119 @@
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>metadataDB</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>theme-areamanagement</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds.ipo</groupId>
 				<artifactId>theme-buisleidingen</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds.ipo</groupId>
 				<artifactId>theme-bvb</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>theme-exposedelements</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>theme-habitat</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>theme-hazardarea</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds.ipo</groupId>
 				<artifactId>theme-monster</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds.ipo</groupId>
 				<artifactId>theme-monsterpunt</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>theme-productionfacility</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>theme-productioninstallation</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>theme-productioninstallationpart</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>theme-protectedsites</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds.ipo</groupId>
 				<artifactId>theme-resultaat</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds.ipo</groupId>
 				<artifactId>theme-riscisor</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>theme-riskzone</artifactId>
-				<version>${cds-version}</version>
+				<version>${cds.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>nl.ipo.cds.ipo</groupId>
+				<artifactId>vrn-themes</artifactId>
+				<version>${cds.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
