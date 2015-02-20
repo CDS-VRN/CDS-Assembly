@@ -35,7 +35,6 @@ RUN a2enmod proxy && \
 # Copy init-script:
 COPY /start-apache.sh /opt/start-apache.sh
 RUN chmod +x /opt/start-apache.sh
-RUN echo "ServerName cds-vrn-acc.geodan.nl" >> /etc/apache2/httpd.conf
 
 VOLUME /var/log/apache2
 

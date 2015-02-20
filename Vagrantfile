@@ -16,13 +16,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		docker.vm.provision "docker" do |d|
 		end
 
-		# Forward the Docker daemon port:		
+		# Forward the HTTP and Docker daemon ports:		
+		docker.vm.network :forwarded_port, host: 8080, guest: 80
 		docker.vm.network :forwarded_port, host: 2375, guest: 2375
 		
 		# Provision virtualbox:
 		docker.vm.provider "virtualbox" do |vb|
 			# Use VBoxManage to customize the VM. For example to change memory:
-			vb.customize ["modifyvm", :id, "--memory", "2048"]
+			vb.customize ["modifyvm", :id, "--memory", "3072"]
 		end
 	end
 

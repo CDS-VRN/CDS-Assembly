@@ -2,12 +2,18 @@
 
 echo "Generating CDS configuration ..."
 
+# Create admin properties:
+echo "admin.requestAuthorization.prompt=$CDS_ADMIN_REQUEST_AUTHORIZATION_PROMPT" > /etc/cds/configdir/nl/ipo/cds/admin/admin.properties
+echo "admin.requestAuthorization.href=$CDS_ADMIN_REQUEST_AUTHORIZATION_HREF" >> /etc/cds/configdir/nl/ipo/cds/admin/admin.properties
+
 # Create dataSource properties:
 echo "jdbc.driverClassName=org.postgresql.Driver" > /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "jdbc.dburl=jdbc:postgresql://db:5432/cds" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "jdbc.username=inspire" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "jdbc.password=inspire" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
-echo "ldap.ldapbase=dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
+echo "ldap.ldapBase=dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
+echo "ldap.ldapGroupDn=cn=cds-gebruikers,ou=Group" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
+echo "ldap.ldapPeopleBaseDn=ou=People" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "ldap.ldapurl=ldap\://ldap:389/dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "ldap.managerdn=cn=admin,dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "ldap.managerpw=admin" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
