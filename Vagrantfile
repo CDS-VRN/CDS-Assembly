@@ -32,8 +32,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		# Provision using a shellscript:
 		db.vm.provision :shell, path: "vagrant-db.sh"
 		
-		# Expose the PostgreSQL port:
+		# Expose the PostgreSQL and LDAP ports:
 		db.vm.network :forwarded_port, host: 5432, guest: 5432
+		config.vm.network :forwarded_port, host: 1389, guest: 1389
 		
 		# Provision virtualbox:
 		db.vm.provider "virtualbox" do |vb|

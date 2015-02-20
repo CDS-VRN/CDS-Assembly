@@ -6,9 +6,9 @@ set -e
 apt-get -qy install \
 	postgresql-9.1 \
 	postgresql-client-9.1 \
-	postgresql-9.1-postgis
-	
-
+	postgresql-9.1-postgis \
+	unzip \
+	openjdk-6-jre-headless
 
 # Create template_postgis:
 RESULT=$(sudo -u postgres psql -l | grep template_postgis | wc -l)
@@ -49,3 +49,22 @@ sudo -u postgres psql -d cds_inspire_unittest -f /vagrant/target/sql/create-data
 sudo -u postgres psql -d cds -f /vagrant/target/sql/add-themes.sql
 
 /etc/init.d/postgresql restart
+
+# Setup LDAP server:
+if [[ ! -d /opt/OpenDS-2.2.1 ]]; then
+	unzip -d /opt /vagrant/src/main/docker/cds-ldap/OpenDS-2.2.1.zip
+
+	cp /vagrant/src/main/docker/cds-ldap/opends /etc/init.d/opends
+		
+	chmod +x /opt/OpenDS-2.2.1/setup
+	chmod +x /opt/OpenDS-2.2.1/bin/*
+	chmod +x /opt/OpenDS-2.2.1/lib/*
+	chmod +x /etc/init.d/opends
+	
+	/opt/OpenDS-2.2.1/setup -i -n -b dc=inspire,dc=idgis,dc=eu -D cn=admin,dc=inspire,dc=idgis,dc=eu -w admin -p 1389 -a
+	/opt/OpenDS-2.2.1/bin/ldapmodify -p 1389 -h localhost -D cn=admin,dc=inspire,dc=idgis,dc=eu -w admin -a -f /vagrant/src/main/docker/cds-ldap/ldap-init.ldif
+	
+	update-rc.d opends defaults
+	
+	/etc/init.d/opends start
+fi

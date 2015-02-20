@@ -1,0 +1,14 @@
+#!/bin/sh
+case "$1" in
+	start)
+		start-stop-daemon --start --pidfile /var/run/opends.pid -b --exec /opt/OpenDS-2.2.1/bin/start-ds -- -N
+		;;
+	stop)
+		/opt/OpenDS-2.2.1/bin/stop-ds
+		;;
+	restart)
+		;;
+	status)
+		;;
+esac
+return 0
