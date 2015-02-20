@@ -23,6 +23,8 @@ then
     createdb -l en_US.UTF8 -O inspire -E UTF8 -T template_postgis cds && \
     psql -d cds -f /usr/share/cds/sql/create-database.sql && \
     psql -d cds -f /usr/share/cds/sql/add-themes.sql || SUCCESS=false
+    
+    psql -d cds -c "insert into manager.gebruiker(gebruikersnaam,superuser)values('admin',true);"
 elif [[ ! -z "${PREV_VERSION}" && ! -z "${DEPLOY_VERSION}" && "${PREV_VERSION}" != "${DEPLOY_VERSION}" ]]
 then
     # If previous version present, and previous version does not equal version to be deployed, check for database
