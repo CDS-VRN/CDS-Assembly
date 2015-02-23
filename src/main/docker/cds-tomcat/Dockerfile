@@ -1,4 +1,4 @@
-FROM cds-base
+FROM cds-base:1.0
 MAINTAINER erik.orbons@idgis.nl
 
 # Install software:

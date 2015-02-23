@@ -2,15 +2,23 @@
 
 echo "Generating CDS configuration ..."
 
+# Create admin properties:
+echo "admin.requestAuthorization.prompt=$CDS_ADMIN_REQUEST_AUTHORIZATION_PROMPT" > /etc/cds/configdir/nl/ipo/cds/admin/admin.properties
+echo "admin.requestAuthorization.href=$CDS_ADMIN_REQUEST_AUTHORIZATION_HREF" >> /etc/cds/configdir/nl/ipo/cds/admin/admin.properties
+
 # Create dataSource properties:
 echo "jdbc.driverClassName=org.postgresql.Driver" > /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "jdbc.dburl=jdbc:postgresql://db:5432/cds" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "jdbc.username=inspire" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "jdbc.password=inspire" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
-echo "ldap.ldapbase=dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
+echo "ldap.ldapBase=dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
+echo "ldap.ldapGroupDn=cn=cds-gebruikers,ou=Group" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
+echo "ldap.ldapPeopleBaseDn=ou=People" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "ldap.ldapurl=ldap\://ldap:389/dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "ldap.managerdn=cn=admin,dc=inspire,dc=idgis,dc=eu" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
 echo "ldap.managerpw=admin" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
+echo "bulkValidator.jdbcUrlFormat=jdbc\:h2\:/tmp/%s" >> /etc/cds/configdir/nl/ipo/cds/dao/dataSource.properties
+
 
 # Create ETL properties:
 echo "pgrBaseUrl=$CDS_ETL_PGR_URL" > /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
@@ -20,6 +28,7 @@ echo "mail.smtpHost=mail" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.smtpPort=25" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.from=$CDS_MAIL_FROM" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.host=$CDS_MAIL_HOST" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
+echo "bronhouderAreaMargin=1" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 
 # Create metadata properties:
 echo "metadataFolder=/var/lib/cds/metadata" > /etc/cds/configdir/nl/ipo/cds/metadata/manager.properties
