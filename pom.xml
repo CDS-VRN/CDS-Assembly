@@ -86,11 +86,18 @@
 										</artifactItem>
 										<artifactItem>
 											<groupId>nl.ipo.cds</groupId>
+											<artifactId>deegree-webservices-vrn</artifactId>
+											<version>${cds-ipo.version}</version>
+											<type>war</type>
+											<destFileName>deegree-vrn.war</destFileName>
+										</artifactItem>
+										<!--<artifactItem>
+											<groupId>nl.ipo.cds</groupId>
 											<artifactId>risicokaart-export-webapp</artifactId>
 											<version>${cds-risicokaart.version}</version>
 											<type>war</type>
 											<destFileName>risicokaart-export.war</destFileName>
-										</artifactItem>
+										</artifactItem>-->
 									</artifactItems>
 									<outputDirectory>${project.build.directory}/webapps</outputDirectory>
 									<overWriteReleases>false</overWriteReleases>
@@ -297,8 +304,13 @@
 										<resource>
 											<targetPath>/webapps</targetPath>
 											<directory>${project.build.directory}/webapps</directory>
-											<include>risicokaart-export.war</include>
+											<include>deegree-vrn.war</include>
 										</resource>
+										<!--<resource>
+											<targetPath>/webapps</targetPath>
+											<directory>${project.build.directory}/webapps</directory>
+											<include>risicokaart-export.war</include>
+										</resource>-->
 									</resources>
 
 								</configuration>
@@ -755,6 +767,12 @@
 			<type>war</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>nl.ipo.cds</groupId>
+			<artifactId>deegree-webservices-vrn</artifactId>
+			<type>war</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -832,6 +850,13 @@
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>deegree-webservices-cds</artifactId>
 				<version>${cds.version}</version>
+				<type>war</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>nl.ipo.cds</groupId>
+				<artifactId>deegree-webservices-vrn</artifactId>
+				<version>${cds-ipo.version}</version>
 				<type>war</type>
 				<scope>compile</scope>
 			</dependency>
@@ -1023,13 +1048,13 @@
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
-			<dependency>
+			<!--<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>risicokaart-export-webapp</artifactId>
 				<version>${cds-risicokaart.version}</version>
 				<type>war</type>
 				<scope>compile</scope>
-			</dependency>
+			</dependency>-->
 		</dependencies>
 	</dependencyManagement>
 

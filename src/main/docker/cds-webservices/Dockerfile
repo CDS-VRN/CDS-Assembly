@@ -12,6 +12,6 @@ COPY /webapps/deegree.war /var/lib/tomcat7/webapps/ProtectedSites.war
 COPY /webapps/deegree.war /var/lib/tomcat7/webapps/AgriculturalAndAquacultureFacilities.war
 COPY /webapps/deegree.war /var/lib/tomcat7/webapps/EnvironmentalMonitoringFacilities.war
 
-COPY /webapps/deegree.war /var/lib/tomcat7/webapps/VoortgangsRapportageNatuur.war
+COPY /webapps/deegree-vrn.war /var/lib/tomcat7/webapps/VoortgangsRapportageNatuur.war
 
-COPY /webapps/risicokaart-export.war /var/lib/tomcat7/webapps/risicokaart-export.war
+#COPY /webapps/risicokaart-export.war /var/lib/tomcat7/webapps/risicokaart-export.war

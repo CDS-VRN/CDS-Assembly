@@ -59,6 +59,21 @@
 		</dependencySet>
 		<dependencySet>
 			<includes>
+				<include>nl.ipo.cds:deegree-webservices-vrn:war</include>
+			</includes>
+			<outputFileNameMapping>
+				<!-- in tomcat webapps wijzen alle nodige services met een softlink naar dit bestand
+                 (ProtectedSites.war -> deegree.war.base, AreaManagement -> deegree.war.base, etc)
+                -->
+				deegree-vrn.war.base
+				<!-- 				DeegreeWebservicesCds${dashClassifier?}.${artifact.extension} -->
+			</outputFileNameMapping>
+			<outputDirectory>/webapps</outputDirectory>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+		<dependencySet>
+			<includes>
 				<include>nl.ipo.cds:risicokaart-export-webapp:war</include>
 			</includes>
 			<outputFileNameMapping>risicokaart-export.war</outputFileNameMapping>
