@@ -91,13 +91,13 @@
 											<type>war</type>
 											<destFileName>deegree-vrn.war</destFileName>
 										</artifactItem>
-										<!--<artifactItem>
+										<artifactItem>
 											<groupId>nl.ipo.cds</groupId>
 											<artifactId>risicokaart-export-webapp</artifactId>
 											<version>${cds-risicokaart.version}</version>
 											<type>war</type>
 											<destFileName>risicokaart-export.war</destFileName>
-										</artifactItem>-->
+										</artifactItem>
 									</artifactItems>
 									<outputDirectory>${project.build.directory}/webapps</outputDirectory>
 									<overWriteReleases>false</overWriteReleases>
@@ -306,11 +306,11 @@
 											<directory>${project.build.directory}/webapps</directory>
 											<include>deegree-vrn.war</include>
 										</resource>
-										<!--<resource>
+										<resource>
 											<targetPath>/webapps</targetPath>
 											<directory>${project.build.directory}/webapps</directory>
 											<include>risicokaart-export.war</include>
-										</resource>-->
+										</resource>
 									</resources>
 
 								</configuration>
@@ -1048,13 +1048,13 @@
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
-			<!--<dependency>
+			<dependency>
 				<groupId>nl.ipo.cds</groupId>
 				<artifactId>risicokaart-export-webapp</artifactId>
 				<version>${cds-risicokaart.version}</version>
 				<type>war</type>
 				<scope>compile</scope>
-			</dependency>-->
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
