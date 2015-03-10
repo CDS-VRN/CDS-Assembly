@@ -3,6 +3,7 @@
 set -e
 
 # Instal PostgreSQL:
+apt-get -qy update
 apt-get -qy install \
 	postgresql-9.1 \
 	postgresql-client-9.1 \
