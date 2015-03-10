@@ -20,7 +20,7 @@ RUN apt-get update && \
 ADD sql/ /usr/share/cds/sql/
 COPY start.sh /opt/start.sh
 COPY database_update.py /opt/database_update.py
-COPY create-risicokaart-cds-2.2.sql /usr/share/cds/sql/create-risicokaart-cds-2.2.sql
+COPY create-risicokaart-schema-2.2.sql /usr/share/cds/sql/create-risicokaart-schema-2.2.sql
 RUN chmod +x /opt/start.sh
 
 # Run the remainder of the commands under the postgres user:
