@@ -35,6 +35,8 @@ for SERVICE in $CDS_SERVICES; do
 	echo "ProxyPass /$SERVICE/services ajp://webservices:8009/$SERVICE/services" >> /etc/apache2/sites-available/cds-webservices
 	echo "ProxyPassReverse /$SERVICE/services ajp://webservices:8009/$SERVICE/services" >> /etc/apache2/sites-available/cds-webservices
 done
+echo "ProxyPass /risicokaart-export ajp://webservices:8009/risicokaart-export" >> /etc/apache2/sites-available/cds-webservices
+echo "ProxyPassReverse /risicokaart-export ajp://webservices:8009/risicokaart-export" >> /etc/apache2/sites-available/cds-webservices
 echo "</VirtualHost>" >> /etc/apache2/sites-available/cds-webservices
 
 a2ensite cds-admin
