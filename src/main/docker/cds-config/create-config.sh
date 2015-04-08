@@ -24,11 +24,12 @@ echo "bulkValidator.jdbcUrlFormat=jdbc\:h2\:/tmp/%s" >> /etc/cds/configdir/nl/ip
 echo "pgrBaseUrl=$CDS_ETL_PGR_URL" > /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "cdsFileCacheRoot=/var/lib/cds/filecache" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "numberOfThreads=10" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
-echo "mail.smtpHost=mail" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
-echo "mail.smtpPort=25" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
+echo "mail.smtpHost=$CDS_MAIL_SMTP_HOST" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
+echo "mail.smtpPort=$CDS_MAIL_SMTP_PORT" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.from=$CDS_MAIL_FROM" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.host=$CDS_MAIL_HOST" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "bronhouderAreaMargin=1" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
+echo "overlapTolerance=0.001" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 
 # Create metadata properties:
 echo "metadataFolder=/var/lib/cds/metadata" > /etc/cds/configdir/nl/ipo/cds/metadata/manager.properties

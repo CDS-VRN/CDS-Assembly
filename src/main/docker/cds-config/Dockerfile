@@ -6,6 +6,8 @@ ENV CDS_ADMIN_REQUEST_AUTHORIZATION_PROMPT="Vraag een account aan"
 ENV CDS_ADMIN_REQUEST_AUTHORIZATION_HREF="http://www.inspire-provincies.nl"
 ENV CDS_MAIL_FROM noreply@services.inspire-provincies.nl
 ENV CDS_MAIL_HOST www.inspire-provincies.nl
+ENV CDS_MAIL_SMTP_HOST=localhost
+ENV CDS_MAIL_SMTP_PORT=25
 ENV CDS_ETL_PGR_URL http://www.provinciaalgeoregister.nl/pgr-csw/services?request=GetRecordById&service=CSW&version=2.0.2&OUTPUTSCHEMA=http://www.isotc211.org/2005/gmd&ID=
 ENV CDS_AWSTATS_URL http\://server-a.inspire-provincies.nl/awstats/awstats.pl?config\=protectedsites
 ENV CDS_AWSTATS_NAMES AWstats Protected Sites
