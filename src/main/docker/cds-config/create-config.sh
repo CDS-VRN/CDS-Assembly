@@ -28,6 +28,8 @@ echo "mail.smtpHost=$CDS_MAIL_SMTP_HOST" >> /etc/cds/configdir/nl/ipo/cds/etl/et
 echo "mail.smtpPort=$CDS_MAIL_SMTP_PORT" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.from=$CDS_MAIL_FROM" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "mail.host=$CDS_MAIL_HOST" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
+echo "mail.hostProto=$CDS_MAIL_HOST_PROTO" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
+
 echo "bronhouderAreaMargin=1" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 echo "overlapTolerance=0.001" >> /etc/cds/configdir/nl/ipo/cds/etl/etl.properties
 
