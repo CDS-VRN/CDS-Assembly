@@ -9,4 +9,4 @@ RUN apt-get update && \
 # Copy the job-executor:
 COPY /jars/job-executor.jar /usr/share/cds/lib/
 
-CMD [ "java", "-Xmx1536m", "-DCONFIGDIR=/etc/cds/configdir", "-cp", "/usr/share/cds/lib/job-executor.jar", "nl.ipo.cds.executor.CdsJobExecuter" ]
+CMD [ "java", "-Xmx1536m", "-DCONFIGDIR=/etc/cds/configdir", "-Dlog4j.configuration=file:/etc/cds/configdir/log4j.properties", "-cp", "/usr/share/cds/lib/job-executor.jar", "nl.ipo.cds.executor.CdsJobExecuter" ]

@@ -24,6 +24,7 @@ ENV CDS_INSPIRE_HOST http://services.inspire-provincies.nl
 # Copy configuration:
 COPY create-config.sh /bin/
 COPY /config /etc/cds
+ADD log4j.properties /etc/cds/configdir/
 
 RUN chmod u+x /bin/create-config.sh
 
